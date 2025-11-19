@@ -49,8 +49,20 @@ const Products = () => {
       return [];
     }
   });
-  const [clientName, setClientName] = useState('');
-  const [orderNote, setOrderNote] = useState('');
+  const [clientName, setClientName] = useState(() => {
+    try {
+      return sessionStorage.getItem('clientName') || '';
+    } catch (e) {
+      return '';
+    }
+  });
+  const [orderNote, setOrderNote] = useState(() => {
+    try {
+      return sessionStorage.getItem('orderNote') || '';
+    } catch (e) {
+      return '';
+    }
+  });
   const [page, setPage] = useState(1);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   useEffect(() => {
@@ -130,12 +142,21 @@ const Products = () => {
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
-    const phone = '50252025909';
+    const phone = '50256252922';
     const messageLines = cart.map((c) => `${c.qty} x ${c.name} - Q${(c.qty * c.price).toFixed(2)}`);
-    const extras = [] as string[];
-    if (clientName) extras.push(`Cliente: ${clientName}`);
-    if (orderNote) extras.push(`Notas: ${orderNote}`);
-    const message = `Hola! Quisiera ordenar:\n${messageLines.join('\n')}\n\n${extras.join('\n')}\n\nTotal: Q${totalAmount.toFixed(2)}`;
+    // Build message: client first, then list of items, then total, then notes
+    const clientLine = clientName ? `Cliente: ${clientName}` : '';
+    const itemsSection = `Pedido:\n${messageLines.join('\n')}`;
+    const totalLine = `Total: Q${totalAmount.toFixed(2)}`;
+    const notesLine = orderNote ? `Notas: ${orderNote}` : '';
+    // Ensure Total and Notas are on their own lines
+    const message = [
+      'Hola, quiero confirmar mi pedido:',
+      clientLine,
+      itemsSection,
+      totalLine,
+      notesLine,
+    ].filter(Boolean).join('\n\n');
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   };
@@ -156,6 +177,15 @@ const Products = () => {
     }
   }, [cart]);
 
+  // persist client/order info and notify other pages
+  useEffect(() => {
+    try {
+      sessionStorage.setItem('clientName', clientName);
+      sessionStorage.setItem('orderNote', orderNote);
+      window.dispatchEvent(new CustomEvent('order-updated', { detail: { clientName, orderNote } }));
+    } catch (e) {}
+  }, [clientName, orderNote]);
+
   // also listen for cart updates from other components (e.g., Header dropdown)
   useEffect(() => {
     const handler = (ev: Event) => {
@@ -171,6 +201,16 @@ const Products = () => {
       }
     };
     window.addEventListener('cart-updated', handler as EventListener);
+    // keep client/order in sync with other components
+    const onOrder = (ev: Event) => {
+      try {
+        // @ts-ignore
+        const { clientName: cn, orderNote: on } = (ev as CustomEvent).detail || {};
+        if (typeof cn === 'string') setClientName(cn);
+        if (typeof on === 'string') setOrderNote(on);
+      } catch (e) {}
+    };
+    window.addEventListener('order-updated', onOrder as EventListener);
     return () => window.removeEventListener('cart-updated', handler as EventListener);
   }, []);
 
@@ -319,7 +359,7 @@ const Products = () => {
                 if (cart.length === 0) return;
                 const name = prompt('Ingresa tu nombre para el pedido:');
                 if (name) {
-                  const phone = '50252025909';
+                  const phone = '50256252922';
                   const messageLines = cart.map((c) => `${c.qty} x ${c.name} - Q${(c.qty * c.price).toFixed(2)}`);
                   const message = `Hola! Quisiera ordenar:\n${messageLines.join('\n')}\n\nCliente: ${name}\n\nTotal: Q${totalAmount.toFixed(2)}`;
                   window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');

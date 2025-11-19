@@ -7,8 +7,8 @@ const WhatsAppButton = () => {
   if (location.pathname && location.pathname.startsWith('/productos')) return null;
 
   return (
-  <a
-    href="https://wa.me/50252025909"
+    <a
+      href="https://wa.me/50256252922"
     className="whatsapp-float"
     target="_blank"
     rel="noopener noreferrer"
@@ -23,7 +23,7 @@ const WhatsAppButton = () => {
     />
   </a>
   );
-);
+};
 
 export default WhatsAppButton;
 

@@ -408,7 +408,7 @@
 
 .cart-total { display:flex; justify-content: space-between; align-items:center; margin-top:1rem; padding-top: 1rem; border-top: 1px solid #efefef; }
 .cart-total-label { color: #666; }
-.cart-total-value { font-weight: 800; color: #22c55e; }
+.cart-total-value { font-weight: 800; color: #22c55e; font-size: 1.6rem; }
 
 .cart-actions { display:flex; gap: .6rem; margin-top: 1rem; }
 
@@ -545,6 +545,8 @@
  
   .category-and-pagination { flex-direction:column; align-items:flex-start; gap: .6rem }
 
+}
+
 .products-destacado-info {
   padding: 0.6rem 0.9rem 0.9rem 0.9rem;
   text-align: center;
@@ -577,7 +579,7 @@
 .products-destacado-info .btn { align-self:center; }
 
 /* Larger total in cart */
-.cart-total-value { font-size: 1.25rem; font-weight: 900; color: #16a34a; }
+.cart-total-value { font-size: 1.5rem; font-weight: 900; color: #16a34a; }
 
 /* Ingredientes Section */
 .products-ingredientes-section {

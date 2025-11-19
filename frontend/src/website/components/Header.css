@@ -120,7 +120,17 @@
 .dropdown-empty { padding: 1rem; color: #9CA3AF; }
 .cart-dropdown-footer { padding: .8rem 1rem; display:flex; align-items:center; justify-content:space-between; gap: .75rem; }
 .dropdown-total { font-weight: 900; color: #16a34a; }
+
 .dropdown-actions a { margin-left: .5rem; }
+
+/* Align dropdown action icons center with their text */
+.cart-dropdown-footer .dropdown-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.cart-dropdown-footer .dropdown-actions .btn svg { width: 18px; height: 18px; }
+.cart-dropdown-footer .dropdown-actions .btn .icon { display: inline-flex; align-items:center; }
 
 /* Small spacing for svg icons inside dropdown action buttons */
 .dropdown-actions .btn svg { margin-right: 8px; vertical-align: middle; }

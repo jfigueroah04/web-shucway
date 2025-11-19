@@ -30,7 +30,7 @@ const Contact = () => {
 Mi nombre es: ${nombre}%0A
 Mi mensaje es: ${mensaje}%0A`;
 
-            window.open(`https://wa.me/50252025909?text=${texto}`, "_blank");
+            window.open(`https://wa.me/50256252922?text=${texto}`, "_blank");
           }}>
             <input
               type="text"
@@ -59,7 +59,7 @@ Mi mensaje es: ${mensaje}%0A`;
             </div>
             <div>
               <span className="contact-label">Numero</span>
-              <p className="contact-value">(+502) 5202-5909</p>
+              <p className="contact-value">(+502) 5625-2922</p>
             </div>
             <div>
               <span className="contact-label">Horario</span>
