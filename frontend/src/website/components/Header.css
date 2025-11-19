@@ -391,14 +391,14 @@
 
 /* cart-mobile removed; no longer needed */
 
-/* Make sure cart dropdown fits mobile screens */
-@media (max-width: 480px) {
+/* Make sure cart dropdown fits small and medium mobile screens */
+@media (max-width: 800px) {
   /* On small screens the dropdown should be fixed, full width (with small side padding) and scrollable. */
   .cart-dropdown {
     position: fixed; /* detach from header bounding box */
     left: 8px;
     right: 8px;
-    top: 76px; /* leave room for header */
+    top: 72px; /* leave room for header */
     width: auto;
     max-width: calc(100% - 16px);
     max-height: calc(100vh - 96px); /* keep some space for header + bottom UI */
