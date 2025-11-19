@@ -151,11 +151,11 @@ const Header = () => {
                 <div className="cart-dropdown-footer">
                   <div className="dropdown-total">Total: Q{(cart || []).reduce((s, it) => s + (it.qty || 0) * (it.price || 0), 0)}</div>
                   <div className="dropdown-actions">
-                    <NavLink to="/cart" className="btn btn-secondary" onClick={() => setShowCartDropdown(false)}>
-                      Ver carrito
+                    <NavLink to="/productos" className="btn btn-secondary" onClick={() => setShowCartDropdown(false)}>
+                      <FaBoxOpen style={{ marginRight: 8 }} /> Ver Productos
                     </NavLink>
-                    <NavLink to="/productos" className="btn btn-success" onClick={() => setShowCartDropdown(false)}>
-                      Continuar
+                    <NavLink to="/cart" className="btn btn-success" onClick={() => setShowCartDropdown(false)}>
+                      <FaShoppingCart style={{ marginRight: 8 }} /> Seguir al carrito
                     </NavLink>
                   </div>
                 </div>

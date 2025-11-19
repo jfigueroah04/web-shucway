@@ -1,5 +1,5 @@
 import './Cart.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { FaTrash, FaPlus, FaMinus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,9 +16,16 @@ const CartPage = () => {
     }
   }, []);
 
+  // Save cart to sessionStorage, but avoid overwriting on initial mount
+  const mountedRef = useRef(false);
   useEffect(() => {
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+      return;
+    }
     try {
       sessionStorage.setItem('cart', JSON.stringify(cart));
+      window.dispatchEvent(new CustomEvent('cart-updated', { detail: cart }));
     } catch (e) {}
   }, [cart]);
 

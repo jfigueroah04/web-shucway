@@ -122,6 +122,10 @@
 .dropdown-total { font-weight: 900; color: #16a34a; }
 .dropdown-actions a { margin-left: .5rem; }
 
+/* Small spacing for svg icons inside dropdown action buttons */
+.dropdown-actions .btn svg { margin-right: 8px; vertical-align: middle; }
+.cart-dropdown-footer .btn { padding: 0.5rem 0.9rem; }
+
 .hamburger span {
   width: 25px;
   height: 3px;
@@ -281,9 +285,9 @@
     font-size: 1.4rem;
   }
     /* show header cart on mobile, and place it to the left of the hamburger */
-    .nav-cart { display: flex; align-items: center; position: absolute; right: 72px; top: 18px; z-index: 1125; }
-    .nav-cart .nav-icon { display: block; color: #fff; font-size: 1.1rem; }
-    .nav-cart .cart-button { padding: 8px 10px; border-radius: 12px; }
+    .nav-cart { display: flex; align-items: center; position: absolute; right: 72px; top: 50%; transform: translateY(-50%); z-index: 1125; }
+    .nav-cart .nav-icon { display: block !important; color: #fff; font-size: 1.4rem; }
+    .nav-cart .cart-button { padding: 10px 12px; border-radius: 12px; }
     .nav-cart .cart-badge { top: -6px; right: -6px; padding: 3px 6px; font-size: 0.7rem; }
 }
 

@@ -52,7 +52,13 @@ const Products = () => {
   const [clientName, setClientName] = useState('');
   const [orderNote, setOrderNote] = useState('');
   const [page, setPage] = useState(1);
-  const productsPerPage = 8; // show 8 products per page (4 cols x 2 rows)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  const productsPerPage = isMobile ? 6 : 8;
   const [cartExpanded, setCartExpanded] = useState(false);
   const [nameError, setNameError] = useState(false);
   const [, setTimeLeft] = useState(604800); // 7 días en segundos
@@ -308,15 +314,28 @@ const Products = () => {
               </div>
             </aside>
             {/* Floating cart button for small screens (visible via CSS) */}
-            <a href="/cart" className="responsive-cart-button" aria-label="Ver carrito">
+            <button 
+              onClick={() => {
+                if (cart.length === 0) return;
+                const name = prompt('Ingresa tu nombre para el pedido:');
+                if (name) {
+                  const phone = '50252025909';
+                  const messageLines = cart.map((c) => `${c.qty} x ${c.name} - Q${(c.qty * c.price).toFixed(2)}`);
+                  const message = `Hola! Quisiera ordenar:\n${messageLines.join('\n')}\n\nCliente: ${name}\n\nTotal: Q${totalAmount.toFixed(2)}`;
+                  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+                }
+              }}
+              className="responsive-cart-button" 
+              aria-label="Enviar pedido por WhatsApp"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{color: 'white'}}>
                 <circle cx="9" cy="21" r="1"></circle>
                 <circle cx="20" cy="21" r="1"></circle>
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
               </svg>
-              <span style={{marginLeft:6, marginRight:6}}>Ver carrito</span>
+              <span style={{marginLeft:6, marginRight:6}}>Enviar pedido</span>
               <span className="badge">{cartCount}</span>
-            </a>
+            </button>
         </div>
       </section>
     </div>

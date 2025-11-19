@@ -38,6 +38,8 @@
 .product-content h1 {
   font-size: 5rem;
   font-weight: 900;
+    /* ensure rows are tight so two rows fit */
+    .products-grid { grid-auto-rows: minmax(0, auto); align-items: start; }
   margin-bottom: 2rem;
   line-height: 1.1;
   color: white;
@@ -158,6 +160,7 @@
 }
 
 .products-chef-img img {
+  .products-destacado-card { box-sizing: border-box; }
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -214,24 +217,114 @@
   margin: 0 auto;
 }
 
-.category-bar {
-  display: flex;
-  gap: .7rem;
-  margin-bottom: 2rem;
-  /* Force chips to stay in one row and allow horizontal scroll in small screens */
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: center;
-  overflow-x: auto;
-  padding: 0 .5rem;
-  /* ensure the category bar is full width when the grid splits into columns */
-  grid-column: 1 / -1;
-  /* no longer sticky: user requested it to scroll with the page */
-  position: static;
-  z-index: initial;
-  background: transparent;
-  padding: 0;
-  border-radius: 0;
+/* Responsive adjustments for products grid */
+@media (max-width: 768px) {
+  .products-destacados-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+  
+  .products-destacados-section {
+    padding: 1.5rem 0.5rem 2rem 0.5rem;
+  }
+  
+  .products-description {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+  }
+  
+  .category-and-pagination {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+  
+  .category-bar {
+    margin-bottom: 1rem;
+    gap: 0.4rem;
+    padding: 0;
+  }
+  
+  .chip {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.8rem;
+    gap: 4px;
+  }
+  
+  .chip svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+  }
+  
+  .products-destacado-card {
+    max-height: none;
+    border-radius: 0.8rem;
+  }
+  
+  .products-destacado-card img {
+    height: 120px;
+  }
+  
+  .products-destacado-title {
+    font-size: 0.8rem;
+  }
+  
+  .products-destacado-price {
+    font-size: 0.9rem;
+  }
+  
+  .products-destacado-info .btn {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .catalog-bar {
+    justify-content: center;
+    margin-top: 1rem;
+    display: flex; /* show pagination on mobile */
+  }
+  
+  .catalog-bar .btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  
+  .cart-sidebar {
+    display: none;
+  }
+  
+  .responsive-cart-button {
+    display: flex;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .products-destacados-grid {
+    grid-template-columns: 1fr 280px;
+    gap: 1.2rem;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .category-bar {
+    gap: 0.6rem;
+  }
+  
+  .chip {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.9rem;
+  }
 }
 
 .category-and-pagination { display:flex; align-items:center; justify-content:space-between; gap:1rem; width:100%; grid-column: 1 / -1; }
@@ -341,7 +434,8 @@
 /* order-type removed (no longer used) */
 
 /* Small screens: horizontal scroll for products */
-@media (max-width: 900px) {
+@media (min-width: 769px) and (max-width: 900px) {
+  /* horizontal scroller only on small tablets: keep min-width so each card is readable */
   .products-grid { display:flex; flex-wrap:nowrap; overflow-x:auto; gap: 1rem; padding-bottom: 1rem; }
   .products-grid .products-destacado-card { min-width: 220px; flex: 0 0 auto; }
 }
@@ -407,10 +501,10 @@
   .products-destacado-card img { height: 180px; object-fit: cover; }
 }
 
-@media (max-width: 480px) {
-  /* single column cards for phones */
-  .products-grid { grid-template-columns: 1fr; }
-  .products-destacado-card img { height: 140px; }
+@media (max-width: 768px) {
+  /* 3 columns for mobile */
+  .products-grid { grid-template-columns: repeat(3, 1fr); }
+  .products-destacado-card img { height: 120px; }
   .products-destacado-card { border-radius: 0.9rem; }
   .products-destacado-info .btn { padding: 0.45rem .7rem; font-size: 0.92rem; }
   .products-destacado-card { max-height: 360px; }
@@ -423,8 +517,21 @@
   .products-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (max-width: 900px) {
+@media (min-width: 769px) and (max-width: 900px) {
+  /* horizontal scroller only on small tablets, not on phones */
   .products-grid { display:flex; flex-wrap:nowrap; overflow-x:auto; gap: 1rem; padding-bottom: 1rem; }
+}
+/* Ensure mobile (<=768px) uses grid and cards don't overflow */
+@media (max-width: 768px) {
+  /* stop horizontal scroll from tablet rule */
+  .products-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 0.75rem; padding-bottom: 0; }
+  .products-grid .products-destacado-card { min-width: 0 !important; flex: none !important; width: 100%; }
+  /* make sure images scale inside the grid */
+  .products-destacado-card img { width: 100%; height: 100px; object-fit: cover; }
+  /* reduce margins so the grid fits cleanly */
+  .products-destacado-info { padding: .6rem; font-size: .92rem; }
+  /* show pagination centered on mobile */
+  .category-and-pagination .catalog-bar { margin-left: 0; justify-content: center; }
 }
   .category-and-pagination { flex-direction:column; align-items:flex-start; gap: .6rem }
 
@@ -702,17 +809,19 @@
   background: #10b981;
   color: #fff;
   border-radius: 999px;
-  padding: 12px 16px;
+  padding: 14px 18px;
   box-shadow: 0 8px 28px rgba(16,185,129,0.18);
   align-items: center;
   gap: 10px;
   font-weight: 700;
+  font-size: 0.95rem;
 }
 .responsive-cart-button .badge {
   background: rgba(255,255,255,0.12);
-  padding: 6px 8px;
+  padding: 6px 10px;
   border-radius: 999px;
   font-weight: 800;
+  font-size: 0.9rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {
