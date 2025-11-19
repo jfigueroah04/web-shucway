@@ -393,8 +393,27 @@
 
 /* Make sure cart dropdown fits mobile screens */
 @media (max-width: 480px) {
-  .cart-dropdown { left: 8px; right: 8px; width: auto; max-width: calc(100% - 16px); }
-  .cart-dropdown-items { max-height: 320px; }
+  /* On small screens the dropdown should be fixed, full width (with small side padding) and scrollable. */
+  .cart-dropdown {
+    position: fixed; /* detach from header bounding box */
+    left: 8px;
+    right: 8px;
+    top: 76px; /* leave room for header */
+    width: auto;
+    max-width: calc(100% - 16px);
+    max-height: calc(100vh - 96px); /* keep some space for header + bottom UI */
+    overflow: hidden; /* keep content clipped to rounded border */
+    z-index: 9999; /* above other overlays */
+    border-radius: 12px;
+  }
+
+  /* Make items area flex and scrollable; this ensures footer stays visible */
+  .cart-dropdown { display: flex; flex-direction: column; }
+  .cart-dropdown-items { max-height: calc(100vh - 210px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+
+  /* Footer should remain visible at bottom; if content is long it will stick */
+  .cart-dropdown-footer { flex-shrink: 0; }
+
   .dropdown-item { padding: .75rem 0.8rem; }
 }
 
