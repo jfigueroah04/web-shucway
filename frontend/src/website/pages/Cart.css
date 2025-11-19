@@ -38,6 +38,17 @@
 .order-client input.invalid { border-color: #ef4444; box-shadow: 0 0 0 4px rgba(239,68,68,0.08); }
 
 @media(max-width:600px){
+ .cart-page.container { padding: 1rem 0.5rem; }
  .cart-row{flex-direction:column;align-items:stretch}
  .row-right{justify-content:space-between}
+ .cart-list { padding: 1.5rem; }
+ .cart-row { padding: 1rem 0; }
+ .qty-controls button { width: 40px; height: 36px; }
+ .trash-btn { padding: 8px 10px; }
+ .cart-name { font-size: 1.1rem; }
+ .cart-total { font-size: 1.1rem; }
+ .cart-total strong { font-size: 1.4rem; }
+ .cart-actions { flex-direction: column; gap: 0.5rem; }
+ .cart-actions .btn { width: 100%; justify-content: center; }
+ .cart-items { max-height: 300px; }
 }

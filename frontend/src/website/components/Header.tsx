@@ -90,6 +90,7 @@ const Header = () => {
               onClick={(e) => {
                 e.preventDefault();
                 setShowCartDropdown((v) => !v);
+                setShowMobileMenu(false); // Close mobile menu when opening cart dropdown
               }}
             >
               <FaShoppingCart className="nav-icon" />
@@ -166,7 +167,10 @@ const Header = () => {
 
         <div
           className={`hamburger ${showMobileMenu ? 'open' : ''} ${scrolled ? 'scrolled' : ''}`}
-          onClick={() => setShowMobileMenu((v) => !v)}
+          onClick={() => {
+            setShowMobileMenu((v) => !v);
+            setShowCartDropdown(false); // Close cart dropdown when opening mobile menu
+          }}
           role="button"
           aria-label={showMobileMenu ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={showMobileMenu}
