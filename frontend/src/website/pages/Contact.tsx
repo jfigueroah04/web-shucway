@@ -3,17 +3,9 @@ import './Contact.css';
 import { useEffect } from 'react';
 
 const Contact = () => {
-  useEffect(() => {
-    const main = document.querySelector('.main-content') as HTMLElement | null;
-    if (main) {
-      const prev = main.style.flex;
-      main.style.flex = '0';
-      return () => {
-        main.style.flex = prev || '';
-      };
-    }
-    return () => { };
-  }, []);
+  // Remove the previous hack that changed the .main-content flex value.
+  // That produced layout problems on mobile where the main area would shrink
+  // and cause overlaps. Keep main layout controlled by CSS instead.
   return (
     <div id="contacto" className="contact-page">
       <div className="contact-main">

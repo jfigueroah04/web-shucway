@@ -162,10 +162,16 @@
 
 @media (max-width: 900px) {
   .contact-main {
-    flex-direction: column;
+    /* switch to a single column layout on small screens */
+    grid-template-columns: 1fr;
     align-items: stretch;
     gap: 2rem;
-    padding: 3rem 1rem 0 1rem;
+    padding: 2rem 1rem 0 1rem;
+  }
+  .contact-form-section,
+  .contact-info-section {
+    min-width: 0; /* prevent min-width from breaking layout */
+    max-width: 100%;
   }
 }
 
