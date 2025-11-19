@@ -54,29 +54,29 @@ const About = () => {
       <section className="about-history-section animate-fade-in">
         <div className="about-history-content animate-slide-left">
           <h2>NUESTRA HISTORIA</h2>
-          <p>
-            Shucway inició operaciones en marzo de 2015 como un emprendimiento
-            complementario a las actividades familiares y profesionales del
-            equipo fundador. Desde su apertura, obtuvo una respuesta favorable
-            de la comunidad en Naciones Unidas 2. Sin embargo, seis meses después
-            se suspendieron temporalmente las actividades debido a limitaciones
-            de tiempo para su adecuada gestión, ya que las responsabilidades
-            familiares requerían atención prioritaria. No obstante, se estableció
-            el compromiso de reactivar el proyecto en el plazo oportuno para
-            consolidarlo como una empresa familiar.
-            <br />
-            <br />
-            El 1 de julio de 2024, tras un intervalo de nueve años, se tomó la
-            determinación estratégica de reabrir Shucway con la integración de
-            dos nuevos miembros y una visión orientada al fortalecimiento
-            familiar.
-          </p>
+          <div className="about-history-text">
+            <p>
+              Shucway nació en marzo de 2015 como un proyecto familiar que
+              complementaba las actividades profesionales del equipo fundador.
+              Desde el inicio recibió una acogida muy positiva de la comunidad
+              local, y rápidamente se convirtió en un espacio cercano para
+              vecinos y visitantes.
+            </p>
+
+            <p>
+              Tras una pausa motivada por compromisos personales, el 1 de julio
+              de 2024 decidimos reabrir Shucway con nuevos colaboradores y una
+              visión renovada: fortalecer el proyecto desde lo familiar y
+              ofrecer un servicio de mayor calidad, sin perder la cercanía que
+              nos caracteriza.
+            </p>
+          </div>
         </div>
 
         {/* Icono grande reemplazando la imagen */}
         <div className="about-history-img animate-zoom-in">
-          <div className="bg-[#E7F9F2] rounded-full p-8 shadow-lg">
-            <Info className="w-32 h-32 text-[#00B074] icon-bounce" />
+          <div className="bg-icon-wrapper">
+            <Info className="icon-bounce" />
           </div>
         </div>
       </section>

@@ -15,7 +15,7 @@ const Contact = () => {
     return () => { };
   }, []);
   return (
-    <div className="contact-page">
+    <div id="contacto" className="contact-page">
       <div className="contact-main">
         <div className="contact-form-section">
           <h2 className="contact-title">CONTACTANOS</h2>
@@ -84,20 +84,7 @@ Mi mensaje es: ${mensaje}%0A`;
         </div>
       </div>
 
-      <div className="contact-whatsapp-section">
-        <div className="whatsapp-icon">
-          <img src="/image/other/wsp.png" alt="WhatsApp" className="contact-whatsapp-img" />
-        </div>
-        <span className="whatsapp-text">CONTACTANOS MEDIANTE WHATSAPP</span>
-        <a
-          href="https://wa.me/50252025909"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <button className="whatsapp-btn">INGRESA AQUÍ</button>
-        </a>
-
-      </div>
+      {/* WhatsApp moved to Home page — keep Contact focused on form */}
 
 
       {/* Footer moved to global Footer component */}

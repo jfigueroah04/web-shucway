@@ -6,6 +6,10 @@
   background-color: #22c55e;
 }
 
+/* WhatsApp Section in Home */
+.home-whatsapp { padding: 1.5rem 0; }
+.home-whatsapp .container { max-width: none; width:100%; margin: 0 auto; padding: 0 1rem; }
+
 .hero-carousel { height: 100%; position: relative; }
 
 .hero-slide {

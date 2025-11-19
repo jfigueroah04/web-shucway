@@ -15,6 +15,13 @@
   justify-content: space-between;
   align-items: center;
   height: 80px;
+  position: relative; /* allow absolute position for header items (mobile) */
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .logo h1 {
@@ -87,6 +94,33 @@
   cursor: pointer;
   gap: 4px;
 }
+  .hamburger.scrolled span { background: #ffd40d; }
+
+.nav-cart { display:flex; align-items:center; margin-left: 0.6rem; }
+/* ensure nav groups items (links + cart) */
+.nav { display:flex; align-items:center; gap: 0.6rem; }
+.header-actions { display:flex; align-items:center; gap:0.6rem; }
+.nav-cart .nav-module { position: relative; padding: 0.5rem; border-radius: .5rem; }
+.cart-button { background: linear-gradient(90deg,#16a34a,#22c55e); color: #fff; padding: 0.5rem 0.8rem; border-radius: 12px; box-shadow: 0 6px 18px rgba(16,185,129,0.12); border: none; }
+.cart-badge { position: absolute; top: -9px; right: -10px; background: #ffffff; color: #16a34a; font-weight: 700; border-radius: 8px; padding: 4px 8px; font-size: 0.8rem; border: 2px solid rgba(255,255,255,0.2); }
+
+.cart-button { display:flex; align-items:center; gap: .4rem; border:none; }
+.cart-dropdown { position: absolute; right: 0; top: 100%; width: 420px; max-width: calc(100vw - 24px); background: rgba(255,255,255,0.98); backdrop-filter: blur(6px); border-radius: 8px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 4px 18px rgba(0,0,0,0.12); z-index: 120; overflow: hidden; transform-origin: top right; margin-top:6px; }
+.cart-button.open { transform: translateY(-2px); }
+.cart-dropdown-header { padding: 1rem 1.2rem; border-bottom: 1px solid #f3f3f3; font-weight: 900; color: #12443d; font-size: 1.04rem; }
+.cart-dropdown-items { max-height: 260px; overflow:auto; padding: 0.6rem 0.6rem; }
+.dropdown-item { display:flex; align-items:center; justify-content:space-between; gap: 0.6rem; padding: .7rem 0.8rem; border-bottom: 1px dashed #eee; }
+.dropdown-item-main { display:flex; flex-direction:column; }
+.dropdown-item-name { font-weight:700; color:#1a202c; }
+.dropdown-item-price { font-size: .95rem; color:#9CA3AF; }
+.dropdown-item-actions { display:flex; align-items:center; gap: 8px; }
+.qty-btn { height: 28px; width: 36px; display:inline-flex; align-items:center; justify-content:center; border-radius: 6px; background: #fff; border: 1px solid #e6eef2; cursor:pointer; }
+.qty-value { min-width: 24px; text-align:center; }
+.remove-btn { height: 30px; width: 34px; display:inline-flex; align-items:center; justify-content:center; background:#ef4444; color:white; border-radius:6px; border:none; cursor:pointer; }
+.dropdown-empty { padding: 1rem; color: #9CA3AF; }
+.cart-dropdown-footer { padding: .8rem 1rem; display:flex; align-items:center; justify-content:space-between; gap: .75rem; }
+.dropdown-total { font-weight: 900; color: #16a34a; }
+.dropdown-actions a { margin-left: .5rem; }
 
 .hamburger span {
   width: 25px;
@@ -94,6 +128,9 @@
   background: #333;
   transition: 0.3s;
 }
+
+.header.scrolled .nav-cart .nav-icon { color: #12443d; }
+.header.scrolled .nav-cart .cart-badge { background: #fff; color: #16a34a; }
 
 .nav-module {
   position: relative;
@@ -243,6 +280,108 @@
   .logo h1 {
     font-size: 1.4rem;
   }
+    /* show header cart on mobile, and place it to the left of the hamburger */
+    .nav-cart { display: flex; align-items: center; position: absolute; right: 72px; top: 18px; z-index: 1125; }
+    .nav-cart .nav-icon { display: block; color: #fff; font-size: 1.1rem; }
+    .nav-cart .cart-button { padding: 8px 10px; border-radius: 12px; }
+    .nav-cart .cart-badge { top: -6px; right: -6px; padding: 3px 6px; font-size: 0.7rem; }
+}
+
+/* Mobile layout tweaks: color and positioning */
+@media (max-width: 768px) {
+  .header {
+    background: linear-gradient(90deg, rgba(19,75,64,0.98) 60%, rgba(45,106,87,0.98) 100%);
+  }
+
+  /* Hide desktop cart in header, we'll show a floating cart next to whatsapp */
+  /* .nav-cart { display: none; } */
+
+  /* make header logo smaller and centered in mobile */
+  .header-container { justify-content: space-between; }
+  .logo { flex: 1; display: flex; justify-content: flex-start; }
+
+  /* show hamburger on the right side, white color for menu icon lines */
+  .hamburger span { background: #fff; }
+
+  /* mobile menu items: centered, large text only */
+  .nav-list.mobile-open .nav-module {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 1rem 2rem;
+    margin: 1.5rem 0;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  .nav-list.mobile-open .nav-module .nav-icon { display: none; }
+  .nav-list.mobile-open .nav-module .nav-link { font-size: 1.8rem; color: #fff; font-weight: 600; }
+  /* cart-mobile removed; floating header cart will be used */
+
+  /* Disable hover effects and dropdowns on small screens (responsive emulation) */
+  .nav-module:hover {
+    transform: none;
+    box-shadow: none;
+    background: transparent;
+  }
+  .nav-module .nav-icon { display: none; }
+  .nav-link:hover { color: #fff; }
+  .dropdown-menu { display: none !important; pointer-events: none !important; }
+
+  /* Add explicit close button inside mobile menu (visible only when open) */
+  .mobile-menu-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 2rem;
+    z-index: 1120;
+    cursor: pointer;
+  }
+
+  /* position of floating cart near whatsapp on mobile */
+  .mobile-cart-float {
+    display: flex;
+    position: fixed;
+    right: 5.5rem; /* slightly left of whatsapp */
+    bottom: 1.25rem;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #16a34a;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 9999;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+
+  .mobile-cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: white;
+    color: #16a34a;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 2px 6px;
+    font-size: 0.8rem;
+  }
+}
+
+/* cart-mobile removed; no longer needed */
+
+/* Make sure cart dropdown fits mobile screens */
+@media (max-width: 480px) {
+  .cart-dropdown { left: 8px; right: 8px; width: auto; max-width: calc(100% - 16px); }
+  .cart-dropdown-items { max-height: 320px; }
+  .dropdown-item { padding: .75rem 0.8rem; }
 }
 
 /* Scrolled state: turn header white and adapt nav */
@@ -289,4 +428,43 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Mobile nav open behavior */
+.nav-list.mobile-open {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(90deg, #154b40 60%, #2d6a57 100%);
+  z-index: 950;
+  overflow-y: auto;
+  transition: transform .35s ease, opacity .35s ease;
+}
+
+.nav-list.mobile-open .nav-module {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0;
+  margin: 0.75rem 0;
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  text-align: center;
+}
+
+.mobile-overlay { position: fixed; inset: 0; z-index: 900; background: rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity .35s ease; }
+.mobile-overlay.open { opacity: 1; pointer-events: auto; }
+
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4px,4px); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: translateX(-5px); }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4px,-4px); }
+
+.hamburger.open span {
+  background: #ffd40d;
 }

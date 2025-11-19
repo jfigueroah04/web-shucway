@@ -345,7 +345,7 @@
 
   .footer-nav {
     grid-column: 1 / -1;
-    justify-content: flex-start;
+    justify-content: center;
   }
 }
 
@@ -356,37 +356,58 @@
 
   .contact-button {
     position: static;
-    align-self: flex-end;
-    margin-bottom: 2rem;
+    width: fit-content;
+    margin: 0 auto 2rem;
+    display: flex;
   }
 
   .footer-main {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 1fr;
     gap: 2rem;
+    align-items: start;
   }
 
   .footer-brand {
+    grid-row: 1;
+    grid-column: 1 / -1;
     text-align: center;
     align-items: center;
   }
 
-  .footer-nav,
-  .footer-contact {
+  .footer-nav {
+    grid-row: 2;
+    grid-column: 1;
+    justify-content: center;
     text-align: center;
   }
 
-  .nav-section a::before {
-    display: none;
+  .footer-contact {
+    grid-row: 2;
+    grid-column: 2;
+    text-align: center;
+    align-items: center;
+  }
+
+  .nav-section ul {
+    display: inline-block;
+    text-align: left;
   }
 
   .footer-bottom-content {
-    flex-direction: column;
-    gap: 1.5rem;
-    text-align: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
   }
 
   .footer-logo {
     width: 150px;
+  }
+
+  .footer-hours {
+    padding: 1.5rem 4rem;
   }
 }
 
@@ -409,7 +430,7 @@
   }
 
   .footer-hours {
-    padding: 1rem;
+    padding: 1rem 3rem;
   }
 
   .contact-item {

@@ -1,11 +1,12 @@
 import './Footer.css';
 import { FaClock, FaEnvelope, FaPhone, FaMapMarkerAlt, FaArrowUp } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Footer = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  const navigate = useNavigate();
 
   const scrollToContact = () => {
     const contactSection = document.getElementById('contacto');
@@ -13,7 +14,12 @@ const Footer = () => {
       contactSection.scrollIntoView({ behavior: 'smooth' });
     } else {
       // Si no está en la página actual, navegar a la página de contacto
-      window.location.href = '/contacto';
+      try {
+        navigate('/contacto');
+      } catch (e) {
+        // fallback to full reload if navigate fails
+        window.location.href = '/contacto';
+      }
     }
   };
 

@@ -1,6 +1,8 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 import { FaClock, FaTruck, FaCreditCard, FaUserFriends, FaMapMarkerAlt } from 'react-icons/fa';
 import './Home.css';
+import { Link } from 'react-router-dom';
+import WhatsAppSection from '../components/WhatsAppSection';
 
 type SlideStyle = CSSProperties & {
   '--btn-primary': string;
@@ -102,12 +104,12 @@ const Home = () => {
                 <h1 className="hero-title">{slide.title}</h1>
                 <p className="hero-subtitle">{slide.subtitle}</p>
                 <div className="hero-buttons">
-                  <a href="/productos" className="btn btn-primary">
+                  <Link to="/productos" className="btn btn-primary">
                     <span>Ver Menú</span>
-                  </a>
-                  <a href="/contacto" className="btn btn-secondary">
+                  </Link>
+                  <Link to="/contacto" className="btn btn-secondary">
                     <span>Contáctanos</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
               </div>
@@ -115,6 +117,8 @@ const Home = () => {
           })}
         </div>
       </section>
+
+      {/* WhatsApp contact moved from Contact page */}
 
       {/* Features Section */}
       <section className="features">
@@ -158,6 +162,12 @@ const Home = () => {
       </section>
 
       {/* Visit Section */}
+      {/* WhatsApp contact moved from Contact page (placed before the map) */}
+      <section className="home-whatsapp">
+        <div className="container">
+          <WhatsAppSection />
+        </div>
+      </section>
       <section className="visit-section">
         <a
           href="https://maps.app.goo.gl/s5bHJLDKRp4qvboB6"

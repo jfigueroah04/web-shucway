@@ -3,13 +3,15 @@
   min-height: auto;
   display: flex;
   flex-direction: column;
+  padding-bottom: 6rem; /* add more space before footer */
 }
 
 .contact-main {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 3rem;
+  display: grid;
+  /* allow the left form to be wider while keeping hard right panel acceptable */
+  grid-template-columns: 1fr 360px;
+  align-items: start;
+  gap: 2.5rem;
   max-width: 1200px;
   margin: 0 auto;
   padding: 4rem 2rem 0 2rem;
@@ -22,8 +24,8 @@
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
   padding: 2.5rem 2.5rem 2rem 2.5rem;
   flex: 1.2;
-  min-width: 340px;
-  max-width: 440px;
+  min-width: 360px;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -55,6 +57,7 @@
   font-size: 1rem;
   background: #f8fafc;
   transition: border-color 0.2s;
+  width: 100%;
 }
 
 .contact-form-custom input:focus {
@@ -82,12 +85,11 @@
 }
 
 .contact-info-section {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
   min-width: 320px;
-  max-width: 400px;
+  max-width: 420px;
 }
 
 .contact-info-block {
@@ -117,18 +119,10 @@
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  margin-bottom: 1.2rem;
 }
 
-.contact-whatsapp-section {
-  background: #22c55e;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  padding: 2.5rem 1rem;
-  margin-top: 3rem;
-}
+/* .contact-whatsapp-section moved to Home - styles now in WhatsAppSection.css */
 
 .whatsapp-icon {
   display: flex;
@@ -188,7 +182,7 @@
     padding: 2rem 0.2rem 0 0.2rem;
   }
 
-  .contact-whatsapp-section {
+  .whatsapp-section {
     flex-direction: column;
     gap: 1.2rem;
     padding: 1.5rem 0.5rem;
@@ -220,6 +214,7 @@
   background: #f8fafc;
   transition: border-color 0.2s;
   resize: none;
+  width: 100%;
 }
 
 .contact-textarea:focus {

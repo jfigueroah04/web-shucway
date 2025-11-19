@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import Products from './pages/Products';
+import Cart from './pages/Cart';
 import WhatsAppButton from './components/WhatsAppButton';
 import './Website.css';
 
@@ -19,6 +20,7 @@ const Website = () => {
           <Route path="/contacto" element={<Contact />} />
           <Route path="/nosotros" element={<About />} />
           <Route path="/productos" element={<Products />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
