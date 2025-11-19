@@ -1,6 +1,12 @@
 import './WhatsAppButton.css';
+import { useLocation } from 'react-router-dom';
 
-const WhatsAppButton = () => (
+const WhatsAppButton = () => {
+  const location = useLocation();
+  // hide the floating whatsapp button on the products page
+  if (location.pathname && location.pathname.startsWith('/productos')) return null;
+
+  return (
   <a
     href="https://wa.me/50252025909"
     className="whatsapp-float"
@@ -16,6 +22,7 @@ const WhatsAppButton = () => (
       className="whatsapp-img"
     />
   </a>
+  );
 );
 
 export default WhatsAppButton;
