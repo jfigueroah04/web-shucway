@@ -393,28 +393,42 @@
 
 /* Make sure cart dropdown fits small and medium mobile screens */
 @media (max-width: 800px) {
-  /* On small screens the dropdown should be fixed, full width (with small side padding) and scrollable. */
+  /* On small screens the dropdown should be fixed and centered under the header. */
   .cart-dropdown {
     position: fixed; /* detach from header bounding box */
-    left: 8px;
-    right: 8px;
-    top: 72px; /* leave room for header */
-    width: auto;
-    max-width: calc(100% - 16px);
+    right: 16px; /* align with cart icon, small gutter from right */
+    left: auto;
+    transform: none;
+    top: 64px; /* leave room for header (smaller on mobile) */
+    width: 320px; /* fixed width for mobile, always visible */
+    min-width: 220px;
+    max-width: 95vw;
+    box-sizing: border-box; /* ensure padding included in width */
     max-height: calc(100vh - 96px); /* keep some space for header + bottom UI */
     overflow: hidden; /* keep content clipped to rounded border */
-    z-index: 9999; /* above other overlays */
+    z-index: 99999; /* above other overlays */
     border-radius: 12px;
+    padding: 0; /* internal areas manage their own padding */
+    margin: 0; /* gutter handled by left + width calc */
   }
 
   /* Make items area flex and scrollable; this ensures footer stays visible */
   .cart-dropdown { display: flex; flex-direction: column; }
-  .cart-dropdown-items { max-height: calc(100vh - 210px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .cart-dropdown-items {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.6rem 0.8rem;
+    background: transparent;
+  }
 
   /* Footer should remain visible at bottom; if content is long it will stick */
   .cart-dropdown-footer { flex-shrink: 0; }
 
-  .dropdown-item { padding: .75rem 0.8rem; }
+  .dropdown-item { padding: 1rem 1rem; width: 100%; box-sizing: border-box; }
+  .qty-btn { height: 32px; width: 40px; }
 }
 
 /* Scrolled state: turn header white and adapt nav */
