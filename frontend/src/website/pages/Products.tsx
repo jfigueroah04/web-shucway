@@ -22,11 +22,11 @@ type Product = { id: number; name: string; category: string; price: number; img:
 
 const productsList: Product[] = [
   // Gringas
-  { id: 1, name: 'Gringa Adobada', category: 'Gringas', price: 20.0, img: '/image/gringa/gringa_adobada.jpg' },
-  { id: 2, name: 'Gringa de Asada', category: 'Gringas', price: 18.0, img: '/image/gringa/gringa_asada.jpg' },
-  { id: 3, name: 'Gringa de Chorizo', category: 'Gringas', price: 16.0, img: '/image/gringa/gringa_chorizo.jpg' },
-  { id: 4, name: 'Gringa de Pollo', category: 'Gringas', price: 16.0, img: '/image/gringa/gringa_pollo.jpg' },
-  { id: 5, name: 'Gringa Mixta', category: 'Gringas', price: 20.0, img: '/image/gringa/gringa_mixta.jpg' },
+  { id: 1, name: 'Gringa Adobada', category: 'Gringas', price: 20.0, img: '/image/gringa/adobada.jpeg' },
+  { id: 2, name: 'Gringa de Asada', category: 'Gringas', price: 18.0, img: '/image/gringa/asada.jpeg' },
+  { id: 3, name: 'Gringa de Chorizo', category: 'Gringas', price: 16.0, img: '/image/gringa/chorizo.jpg' },
+  { id: 4, name: 'Gringa de Pollo', category: 'Gringas', price: 16.0, img: '/image/gringa/pollo.jpg' },
+  { id: 5, name: 'Gringa Mixta', category: 'Gringas', price: 20.0, img: '/image/gringa/mixta.jpg' },
   // Hamburguesas
   { id: 6, name: 'Bacon Burger', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/bacon_burger.jpg' },
   { id: 7, name: 'Cheese Burger', category: 'Hamburguesas', price: 15.0, img: '/image/hamburguesas/cheese_burger.jpg' },
