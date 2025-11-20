@@ -1,5 +1,7 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 import { FaClock, FaTruck, FaCreditCard, FaUserFriends, FaMapMarkerAlt } from 'react-icons/fa';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import './Home.css';
 import { Link } from 'react-router-dom';
 import WhatsAppSection from '../components/WhatsAppSection';
@@ -155,7 +157,7 @@ const Home = () => {
         <div className="food-carousel">
           {[...foodImages, ...foodImages].map((image, index) => (
             <div key={index} className="food-item">
-              <img src={image} alt="Platillo destacado" />
+              <LazyLoadImage src={image} alt="Platillo destacado" effect="blur" />
             </div>
           ))}
         </div>
@@ -175,10 +177,11 @@ const Home = () => {
           rel="noopener noreferrer"
           className="visit-map-link"
         >
-          <img
+          <LazyLoadImage
             src="/image/other/location-static-map.png"
             alt="Ubicación Shucway"
             className="visit-map-img"
+            effect="blur"
           />
           <div className="map-overlay"></div>
           <div className="visit-content">

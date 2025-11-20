@@ -4,6 +4,8 @@ import type { LucideProps } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { Beef, Sandwich, Pizza, Drumstick, Utensils, Star, Coffee } from 'lucide-react';
 import { FaCartPlus, FaTrash } from 'react-icons/fa';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import './Products.css';
 import { buildWhatsAppUrl } from '../../config/whatsapp';
 
@@ -77,6 +79,8 @@ const Products = () => {
       return [];
     }
   });
+  const [animateButton, setAnimateButton] = useState<string | null>(null);
+  const [showBubble, setShowBubble] = useState<string | null>(null);
   const [firstName, setFirstName] = useState(() => {
     try {
       return sessionStorage.getItem('clientFirstName') || '';
@@ -98,6 +102,46 @@ const Products = () => {
       return '';
     }
   });
+  const [pickupTime, setPickupTime] = useState<'now' | 'later'>(() => {
+    try {
+      return (sessionStorage.getItem('pickupTime') as 'now' | 'later') || 'now';
+    } catch (e) {
+      return 'now';
+    }
+  });
+  const [pickupHour, setPickupHour] = useState(() => {
+    try {
+      return sessionStorage.getItem('pickupHour') || '19:00';
+    } catch (e) {
+      return '19:00';
+    }
+  });
+  const [pickupHourSelect, setPickupHourSelect] = useState(() => {
+    try {
+      const stored = sessionStorage.getItem('pickupHourSelect');
+      if (stored) return stored;
+      const hour = sessionStorage.getItem('pickupHour')?.split(':')[0] || '19';
+      return hour;
+    } catch (e) {
+      return '19';
+    }
+  });
+  const [pickupMinuteSelect, setPickupMinuteSelect] = useState(() => {
+    try {
+      const stored = sessionStorage.getItem('pickupMinuteSelect');
+      if (stored) return stored;
+      const minute = sessionStorage.getItem('pickupHour')?.split(':')[1] || '00';
+      return minute;
+    } catch (e) {
+      return '00';
+    }
+  });
+
+  // Update pickupHour when selects change
+  useEffect(() => {
+    const newTime = `${pickupHourSelect}:${pickupMinuteSelect}`;
+    setPickupHour(newTime);
+  }, [pickupHourSelect, pickupMinuteSelect]);
   const [page, setPage] = useState(1);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   useEffect(() => {
@@ -160,6 +204,12 @@ const Products = () => {
       }
       return [...prev, { ...product, qty: 1 }];
     });
+    // Animar el botón
+    setAnimateButton(product.id.toString());
+    setTimeout(() => setAnimateButton(null), 500);
+    // Mostrar burbuja +1
+    setShowBubble(product.id.toString());
+    setTimeout(() => setShowBubble(null), 1000);
   };
 
   const removeFromCart = (productId: number) => setCart((prev) => prev.filter((i) => i.id !== productId));
@@ -181,15 +231,17 @@ const Products = () => {
     const phone = '50256252922';
     const messageLines = cart.map((c) => `${c.qty} x ${c.name} - Q${(c.qty * c.price).toFixed(2)}`);
     // Build message: client first, then list of items, then total, then notes
-    const clientLine = `${firstName} ${lastName}` ? `Cliente: ${firstName} ${lastName}` : '';
+    const clientLine = `${firstName} ${lastName}` ? `Mi nombre es: ${firstName} ${lastName}` : '';
     const itemsSection = `Pedido:\n${messageLines.join('\n')}`;
     const totalLine = `Total: Q${totalAmount.toFixed(2)}`;
+    const pickupLine = pickupTime === 'now' ? 'Recoger ahora' : `Recoger a las ${pickupHour}`;
     const notesLine = orderNote ? `Notas: ${orderNote}` : '';
     // Ensure Total and Notas are on their own lines
     const message = [
       'Hola, quiero confirmar mi pedido:',
       clientLine,
       itemsSection,
+      pickupLine,
       totalLine,
       notesLine,
     ].filter(Boolean).join('\n\n');
@@ -218,9 +270,13 @@ const Products = () => {
       sessionStorage.setItem('clientFirstName', firstName);
       sessionStorage.setItem('clientLastName', lastName);
       sessionStorage.setItem('orderNote', orderNote);
-      window.dispatchEvent(new CustomEvent('order-updated', { detail: { firstName, lastName, orderNote } }));
+      sessionStorage.setItem('pickupTime', pickupTime);
+      sessionStorage.setItem('pickupHour', pickupHour);
+      sessionStorage.setItem('pickupHourSelect', pickupHourSelect);
+      sessionStorage.setItem('pickupMinuteSelect', pickupMinuteSelect);
+      window.dispatchEvent(new CustomEvent('order-updated', { detail: { firstName, lastName, orderNote, pickupTime, pickupHour, pickupHourSelect, pickupMinuteSelect } }));
     } catch (e) {}
-  }, [firstName, lastName, orderNote]);
+  }, [firstName, lastName, orderNote, pickupTime, pickupHour]);
 
   // also listen for cart updates from other components (e.g., Header dropdown)
   useEffect(() => {
@@ -289,14 +345,15 @@ const Products = () => {
             <div className="products-grid">
               {filtered.slice((page - 1) * productsPerPage, page * productsPerPage).map((p) => (
                 <div className="products-destacado-card product-card" key={p.id}>
-                  <img src={p.img} alt={p.name} />
+                  <LazyLoadImage src={p.img} alt={p.name} effect="blur" />
                   <div className="products-destacado-info">
                     <div className="products-destacado-title">{p.name}</div>
                     <div className="products-destacado-price">Q{p.price.toFixed(2)}</div>
-                      <div style={{ marginTop: 10 }}>
-                      <button className="btn btn-primary btn-add" onClick={() => addToCart(p)}>
+                      <div style={{ marginTop: 10, position: 'relative' }}>
+                      <button className={`btn btn-primary btn-add ${animateButton === p.id.toString() ? 'animate-add' : ''}`} onClick={() => addToCart(p)}>
                         <FaCartPlus style={{ marginRight: 8 }} /> Agregar
                       </button>
+                      {showBubble === p.id.toString() && <span className="plus-bubble">+1</span>}
                     </div>
                   </div>
                 </div>
@@ -351,6 +408,45 @@ const Products = () => {
 
                 <label>Notas / Descripción</label>
                 <textarea placeholder="Ej: Sin cebolla, extra salsa..." value={orderNote} onChange={(e) => setOrderNote(e.target.value)} />
+                <p className="delivery-note">Nota: No se hacen entregas a domicilio. Recoge tu pedido en el local.</p>
+
+                <label>Tiempo de Pedido</label>
+                <div className="pickup-time-options">
+                  <label>
+                    <input type="radio" name="pickupTime" value="now" checked={pickupTime === 'now'} onChange={() => setPickupTime('now')} />
+                    Ahora
+                  </label>
+                  <label>
+                    <input type="radio" name="pickupTime" value="later" checked={pickupTime === 'later'} onChange={() => setPickupTime('later')} />
+                    Después
+                  </label>
+                </div>
+                {pickupTime === 'later' && (
+                  <div className="pickup-hour">
+                    <label>Hora de recogida (19:00 - 22:00)</label>
+                    <div className="time-selects">
+                      <div className="time-group">
+                        <label>Hora</label>
+                        <select value={pickupHourSelect} onChange={(e) => setPickupHourSelect(e.target.value)}>
+                          <option value="19">19</option>
+                          <option value="20">20</option>
+                          <option value="21">21</option>
+                          <option value="22">22</option>
+                        </select>
+                      </div>
+                      <div className="time-group">
+                        <label>Minuto</label>
+                        <select value={pickupMinuteSelect} onChange={(e) => setPickupMinuteSelect(e.target.value)}>
+                          {Array.from({ length: 60 }, (_, i) => {
+                            const minute = i.toString().padStart(2, '0');
+                            return <option key={minute} value={minute}>{minute}</option>;
+                          })}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {nameErrorMsg && <div className="input-error">{nameErrorMsg}</div>}
               </div>
               <div className={`cart-list ${cartExpanded ? 'expanded' : 'collapsed'}`}>
@@ -408,7 +504,7 @@ const Products = () => {
                   if (name) {
                   const messageLines = cart.map((c) => `${c.qty} x ${c.name} - Q${(c.qty * c.price).toFixed(2)}`);
                   const client = name.trim();
-                  const message = `Hola! Quisiera ordenar:\n${messageLines.join('\n')}\n\nCliente: ${client}\n\nTotal: Q${totalAmount.toFixed(2)}`;
+                  const message = `Hola! Quisiera ordenar:\n${messageLines.join('\n')}\n\nMi nombre es: ${client}\n\nTotal: Q${totalAmount.toFixed(2)}`;
                   window.open(buildWhatsAppUrl(message), '_blank');
                 }
               }}

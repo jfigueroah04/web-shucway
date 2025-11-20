@@ -10,6 +10,8 @@ const Header = () => {
   const [cart, setCart] = useState<Array<{ id?: number; name?: string; price?: number; qty?: number }>>([]);
   const [showCartDropdown, setShowCartDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [animateCart, setAnimateCart] = useState(false);
+  const [confirmRemove, setConfirmRemove] = useState<number | null>(null);
   const cartRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -36,6 +38,8 @@ const Header = () => {
     const handler = (e: CustomEvent) => {
       setCart(e.detail);
       setCartCount(e.detail.reduce((s: number, it: any) => s + (it.qty || 0), 0));
+      setAnimateCart(true);
+      setTimeout(() => setAnimateCart(false), 500);
     };
     const onDocClick = (e: MouseEvent) => {
       if (cartRef.current && !cartRef.current.contains(e.target as Node)) {
@@ -85,7 +89,7 @@ const Header = () => {
         <div className="header-actions">
           <div className="nav-cart" ref={cartRef}>
             <button
-              className={`nav-module cart-button ${showCartDropdown ? 'open' : ''}`}
+              className={`nav-module cart-button ${showCartDropdown ? 'open' : ''} ${animateCart ? 'animate-cart' : ''}`}
               title="Abrir carrito"
               onClick={(e) => {
                 e.preventDefault();
@@ -133,15 +137,32 @@ const Header = () => {
                           </button>
                           <button
                             className="remove-btn"
-                            onClick={() => {
-                              const updated = cart.filter((it) => it.id !== item.id);
-                              sessionStorage.setItem('cart', JSON.stringify(updated));
-                              window.dispatchEvent(new CustomEvent('cart-updated', { detail: updated }));
-                            }}
+                            onClick={() => setConfirmRemove(item.id || null)}
                             title="Eliminar"
                           >
                             <FaTrash />
                           </button>
+                          {confirmRemove === item.id && (
+                            <div className="confirm-remove">
+                              <button
+                                className="confirm-yes"
+                                onClick={() => {
+                                  const updated = cart.filter((it) => it.id !== item.id);
+                                  sessionStorage.setItem('cart', JSON.stringify(updated));
+                                  window.dispatchEvent(new CustomEvent('cart-updated', { detail: updated }));
+                                  setConfirmRemove(null);
+                                }}
+                              >
+                                Sí
+                              </button>
+                              <button
+                                className="confirm-no"
+                                onClick={() => setConfirmRemove(null)}
+                              >
+                                No
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))

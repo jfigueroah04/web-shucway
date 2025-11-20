@@ -375,17 +375,21 @@
   gap: 1rem;
 }
 
-.products-grid { flex: 2; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.products-grid { flex: 2; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; align-items: start; }
 
 .cart-sidebar {
   background: #fff;
   padding: 1.25rem;
   border-radius: 1rem;
   box-shadow: 0 8px 28px rgba(0,0,0,.08);
-  border-left: 6px solid rgba(34,197,94,0.12);
+  /* remove visible green divider - use subtle shadow instead */
+  border-left: none;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.06), inset 0 0 0 1px rgba(0,0,0,0.02);
   position: sticky;
   /* align with category chips area — adjust if needed */
-  top: 88px;
+  top: 60px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
 }
 
 .cart-header { font-weight: 800; color: #1a202c; margin-bottom: 1rem; }
@@ -433,8 +437,71 @@
 .input-error { color: #ef4444; font-size: .85rem; margin-top: .35rem; }
 /* two-field name row */
 .order-client .name-row { display:flex; gap:0.6rem; }
-.order-client .name-row input { flex:1; }
-@media(max-width:600px){ .order-client .name-row { flex-direction:column; gap:0.5rem; } }
+.order-client .delivery-note {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.5rem 0;
+  font-style: italic;
+}
+
+.order-client .pickup-time-options {
+  display: flex;
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+
+.order-client .pickup-time-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.order-client .pickup-hour {
+  margin: 0.5rem 0;
+}
+
+.order-client .pickup-hour label {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.order-client .pickup-hour input {
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.4rem;
+  border: 1px solid #e6eef2;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.order-client .time-selects {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.order-client .time-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.order-client .time-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.order-client .time-selects select {
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e6eef2;
+  background: white;
+  font-size: 1rem;
+  min-width: 70px;
+}
+@media(max-width:600px){ .order-client .name-row { flex-direction:column; gap:0.5rem; } .order-client .name-row input { width: 100%; box-sizing: border-box; } }
 /* order-type removed (no longer used) */
 
 /* Small screens: horizontal scroll for products */
@@ -676,22 +743,41 @@
   text-align: center;
 }
 
-.product-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.product-header h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: #1a202c;
-}
-
-.product-description {
-  padding: 0 2rem;
-  color: #4a5568;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
+@media (min-width: 1201px) {
+  .product-card {
+    max-height: 280px; /* Limitar altura máxima */
+  }
+  .product-header {
+    padding: 0.75rem 0.75rem 0.25rem;
+  }
+  .product-header h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+  }
+  .product-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.4rem;
+  }
+  .product-description {
+    padding: 0 0.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+  .product-features {
+    padding: 0 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .product-features li {
+    font-size: 0.8rem;
+    padding: 0.1rem 0;
+  }
+  .product-footer {
+    padding: 0.75rem 0.75rem 1rem;
+  }
+  .product-price {
+    font-size: 1.2rem;
+  }
 }
 
 .product-features {
@@ -842,5 +928,47 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .responsive-cart-button { transition: transform .18s ease, box-shadow .18s ease; }
+}
+
+/* Animaciones para agregar al carrito */
+.animate-add {
+  animation: add-to-cart 0.5s ease;
+}
+
+@keyframes add-to-cart {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); background-color: #FFD40D; }
+  100% { transform: scale(1); }
+}
+
+.animate-cart {
+  animation: cart-bounce 0.5s ease;
+}
+
+@keyframes cart-bounce {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+/* Burbuja +1 */
+.plus-bubble {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #FFD40D;
+  color: #346C60;
+  padding: 4px 8px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: bold;
+  animation: bubble-float 1s ease-out forwards;
+}
+
+@keyframes bubble-float {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-30px); opacity: 0; }
 }
 

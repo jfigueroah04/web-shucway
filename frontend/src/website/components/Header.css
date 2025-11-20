@@ -117,6 +117,9 @@
 .qty-btn { height: 28px; width: 36px; display:inline-flex; align-items:center; justify-content:center; border-radius: 6px; background: #fff; border: 1px solid #e6eef2; cursor:pointer; }
 .qty-value { min-width: 24px; text-align:center; }
 .remove-btn { height: 30px; width: 34px; display:inline-flex; align-items:center; justify-content:center; background:#ef4444; color:white; border-radius:6px; border:none; cursor:pointer; }
+.confirm-remove { display: flex; gap: 4px; margin-left: 8px; }
+.confirm-yes { background: #dc2626; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 0.8rem; }
+.confirm-no { background: #6b7280; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 0.8rem; }
 .dropdown-empty { padding: 1rem; color: #9CA3AF; }
 .cart-dropdown-footer { padding: .8rem 1rem; display:flex; align-items:center; justify-content:space-between; gap: .75rem; }
 .dropdown-total { font-weight: 900; color: #16a34a; }
@@ -514,4 +517,16 @@ html {
 
 .hamburger.open span {
   background: #ffd40d;
+}
+
+/* Animación del carrito en header */
+.animate-cart {
+  animation: cart-header-bounce 0.5s ease;
+}
+
+@keyframes cart-header-bounce {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }

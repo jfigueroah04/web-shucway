@@ -28,6 +28,46 @@ const CartPage = () => {
       return '';
     }
   });
+  const [pickupTime, setPickupTime] = useState<'now' | 'later'>(() => {
+    try {
+      return (sessionStorage.getItem('pickupTime') as 'now' | 'later') || 'now';
+    } catch (e) {
+      return 'now';
+    }
+  });
+  const [pickupHour, setPickupHour] = useState(() => {
+    try {
+      return sessionStorage.getItem('pickupHour') || '19:00';
+    } catch (e) {
+      return '19:00';
+    }
+  });
+  const [pickupHourSelect, setPickupHourSelect] = useState(() => {
+    try {
+      const stored = sessionStorage.getItem('pickupHourSelect');
+      if (stored) return stored;
+      const hour = sessionStorage.getItem('pickupHour')?.split(':')[0] || '19';
+      return hour;
+    } catch (e) {
+      return '19';
+    }
+  });
+  const [pickupMinuteSelect, setPickupMinuteSelect] = useState(() => {
+    try {
+      const stored = sessionStorage.getItem('pickupMinuteSelect');
+      if (stored) return stored;
+      const minute = sessionStorage.getItem('pickupHour')?.split(':')[1] || '00';
+      return minute;
+    } catch (e) {
+      return '00';
+    }
+  });
+
+  // Update pickupHour when selects change
+  useEffect(() => {
+    const newTime = `${pickupHourSelect}:${pickupMinuteSelect}`;
+    setPickupHour(newTime);
+  }, [pickupHourSelect, pickupMinuteSelect]);
   const [nameErrorMsg, setNameErrorMsg] = useState('');
   const navigate = useNavigate();
 
@@ -54,6 +94,10 @@ const CartPage = () => {
       sessionStorage.setItem('clientFirstName', firstName);
       sessionStorage.setItem('clientLastName', lastName);
       sessionStorage.setItem('orderNote', orderNote);
+      sessionStorage.setItem('pickupTime', pickupTime);
+      sessionStorage.setItem('pickupHour', pickupHour);
+      sessionStorage.setItem('pickupHourSelect', pickupHourSelect);
+      sessionStorage.setItem('pickupMinuteSelect', pickupMinuteSelect);
       window.dispatchEvent(new CustomEvent('order-updated', { detail: { firstName, lastName, orderNote } }));
     } catch (e) {}
   }, [cart]);
@@ -70,6 +114,22 @@ const CartPage = () => {
     try { sessionStorage.setItem('orderNote', orderNote); } catch (e) {}
   }, [orderNote]);
 
+  useEffect(() => {
+    try { sessionStorage.setItem('pickupTime', pickupTime); } catch (e) {}
+  }, [pickupTime]);
+
+  useEffect(() => {
+    try { sessionStorage.setItem('pickupHour', pickupHour); } catch (e) {}
+  }, [pickupHour]);
+
+  useEffect(() => {
+    try { sessionStorage.setItem('pickupHourSelect', pickupHourSelect); } catch (e) {}
+  }, [pickupHourSelect]);
+
+  useEffect(() => {
+    try { sessionStorage.setItem('pickupMinuteSelect', pickupMinuteSelect); } catch (e) {}
+  }, [pickupMinuteSelect]);
+
   // listen to external order updates
   useEffect(() => {
     const onOrder = (ev: Event) => {
@@ -78,6 +138,10 @@ const CartPage = () => {
         if (payload && typeof payload.firstName === 'string') setFirstName(payload.firstName);
         if (payload && typeof payload.lastName === 'string') setLastName(payload.lastName);
         if (payload && typeof payload.orderNote === 'string') setOrderNote(payload.orderNote);
+        if (payload && typeof payload.pickupTime === 'string') setPickupTime(payload.pickupTime);
+        if (payload && typeof payload.pickupHour === 'string') setPickupHour(payload.pickupHour);
+        if (payload && typeof payload.pickupHourSelect === 'string') setPickupHourSelect(payload.pickupHourSelect);
+        if (payload && typeof payload.pickupMinuteSelect === 'string') setPickupMinuteSelect(payload.pickupMinuteSelect);
       } catch (e) {}
     };
     window.addEventListener('order-updated', onOrder as EventListener);
@@ -118,6 +182,44 @@ const CartPage = () => {
         {nameErrorMsg && <div className="field-error">{nameErrorMsg}</div>}
         <label>Notas / Descripción</label>
         <textarea placeholder="Ej: Sin cebolla, extra salsa..." value={orderNote} onChange={(e) => setOrderNote(e.target.value)} />
+        <p className="delivery-note">Nota: No se hacen entregas a domicilio. Recoge tu pedido en el local.</p>
+
+        <label>Tiempo de Pedido</label>
+        <div className="pickup-time-options">
+          <label>
+            <input type="radio" name="pickupTime" value="now" checked={pickupTime === 'now'} onChange={() => setPickupTime('now')} />
+            Ahora
+          </label>
+          <label>
+            <input type="radio" name="pickupTime" value="later" checked={pickupTime === 'later'} onChange={() => setPickupTime('later')} />
+            Después
+          </label>
+        </div>
+        {pickupTime === 'later' && (
+          <div className="pickup-hour">
+            <label>Hora de recogida (19:00 - 22:00)</label>
+            <div className="time-selects">
+              <div className="time-group">
+                <label>Hora</label>
+                <select value={pickupHourSelect} onChange={(e) => setPickupHourSelect(e.target.value)}>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                </select>
+              </div>
+              <div className="time-group">
+                <label>Minuto</label>
+                <select value={pickupMinuteSelect} onChange={(e) => setPickupMinuteSelect(e.target.value)}>
+                  {Array.from({ length: 60 }, (_, i) => {
+                    const minute = i.toString().padStart(2, '0');
+                    return <option key={minute} value={minute}>{minute}</option>;
+                  })}
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       {cart.length === 0 ? (
         <div className="cart-empty">No hay productos en el carrito.</div>
@@ -166,7 +268,7 @@ const CartPage = () => {
                     return;
                   }
                   const messageLines = cart.map(it => `${it.qty} x ${it.name} - Q${(it.qty * it.price).toFixed(2)}`);
-                  const clientLine = `${firstName} ${lastName}` ? `Cliente: ${firstName} ${lastName}` : '';
+                  const clientLine = `${firstName} ${lastName}` ? `Mi nombre es: ${firstName} ${lastName}` : '';
                   const itemsSection = `Pedido:\n${messageLines.join('\n')}`;
                   const totalLine = `Total: Q${total.toFixed(2)}`;
                   const notesLine = orderNote ? `Notas: ${orderNote}` : '';

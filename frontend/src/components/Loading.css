@@ -1,0 +1,45 @@
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white; /* Cambiado a blanco */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-content {
+  text-align: center;
+  color: #346C60; /* Cambiar color del texto para contraste */
+}
+
+.loading-icon {
+  width: 60px; /* Un poco más grande para menos borrosidad */
+  height: 60px;
+  /* Sin animación */
+}
+
+.dot {
+  animation: dot-bounce 1.4s infinite ease-in-out;
+}
+
+.dot:nth-child(1) { animation-delay: -0.32s; }
+.dot:nth-child(2) { animation-delay: -0.16s; }
+.dot:nth-child(3) { animation-delay: 0s; }
+
+@keyframes dot-bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+.loading-content p {
+  margin-top: 20px;
+  font-size: 1.2rem;
+}

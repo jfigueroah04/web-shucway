@@ -43,9 +43,74 @@
 .order-client input.invalid { border-color: #ef4444; box-shadow: 0 0 0 4px rgba(239,68,68,0.08); }
 
 .order-client .name-row { display:flex; gap:0.6rem; }
-.order-client .name-row input { flex:1; }
+.order-client .name-row input { width: calc(50% - 0.3rem); box-sizing: border-box; }
 
 .order-client .field-error { color: #ef4444; font-size: 0.92rem; margin-top: 0.4rem; }
+
+.order-client .delivery-note {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.5rem 0;
+  font-style: italic;
+}
+
+.order-client .pickup-time-options {
+  display: flex;
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+
+.order-client .pickup-time-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.order-client .pickup-hour {
+  margin: 0.5rem 0;
+}
+
+.order-client .pickup-hour label {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.order-client .pickup-hour input {
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.4rem;
+  border: 1px solid #e6eef2;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.order-client .time-selects {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.order-client .time-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.order-client .time-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.order-client .time-selects select {
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e6eef2;
+  background: white;
+  font-size: 1rem;
+  min-width: 70px;
+}
 
 
 @media(max-width:600px){
@@ -62,7 +127,7 @@
  .cart-actions { flex-direction: column; gap: 0.5rem; }
  .cart-actions .btn { width: 100%; justify-content: center; }
  .cart-items { max-height: 300px; }
- .order-client .name-row { flex-direction:column; gap:0.5rem; }
+ .order-client .name-row { flex-direction:column; gap:0.5rem; } .order-client .name-row input { width: 100%; box-sizing: border-box; }
 }
 
 /* Dropdown del carrito: separar botónes y comportamientos responsivos */
