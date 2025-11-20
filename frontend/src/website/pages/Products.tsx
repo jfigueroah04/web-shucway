@@ -2,42 +2,65 @@ import { useState, useEffect, useMemo } from 'react';
 import type React from 'react';
 import type { LucideProps } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
-import { Beef, Sandwich, Pizza, Drumstick, Utensils, Star } from 'lucide-react';
+import { Beef, Sandwich, Pizza, Drumstick, Utensils, Star, Coffee } from 'lucide-react';
 import { FaCartPlus, FaTrash } from 'react-icons/fa';
 import './Products.css';
 import { buildWhatsAppUrl } from '../../config/whatsapp';
 
 const menuItems = [
   { name: 'Shucos', img: '/image/shucos/salami.jpeg', desc: 'Variedad de clásicos' },
-  { name: 'Hamburguesa', img: '/image/hamburguesas/bacon.jpg', desc: 'Muchos tipos' },
-  { name: 'Gringa', img: '/image/gringa/adobada.jpeg', desc: 'Delicias estilo gringa' },
-  { name: 'Salchipapas', img: '/image/papas/salchipapas.jpg', desc: 'Sabor único' },
-  { name: 'Papas Fritas', img: '/image/papas/french_fries.jpg', desc: 'Acompañamiento dorado, hecho en el local' },
+  { name: 'Hamburguesas', img: '/image/hamburguesas/bacon.jpg', desc: 'Muchos tipos' },
+  { name: 'Gringas', img: '/image/gringa/adobada.jpeg', desc: 'Delicias estilo gringa' },
+  { name: 'Pollo', img: '/image/hamburguesas/chicken_fried.jpg', desc: 'Opciones de pollo' },
+  { name: 'Papas Fritas y Salchipapas', img: '/image/papas/salchipapas.jpg', desc: 'Acompañamientos' },
+  { name: 'Bebidas', img: '/image/other/logo-umg.png', desc: 'Refrescos' },
 ];
 
 // Productos del menú con imágenes desde public/image
 type Product = { id: number; name: string; category: string; price: number; img: string };
 
 const productsList: Product[] = [
-  { id: 1, name: 'Bcon Burger', category: 'Hamburguesa', price: 20.0, img: '/image/hamburguesas/bacon.jpg' },
-  { id: 2, name: 'Cheesse Burger', category: 'Hamburguesa', price: 15.0, img: '/image/hamburguesas/chesse_burger.webp' },
-  { id: 3, name: 'Coca Cola', category: 'Bebida', price: 6.0, img: '/image/other/logo-umg.png' },
-  { id: 4, name: 'Cuadril de Pollo', category: 'Pollo', price: 25.0, img: '/image/hamburguesas/chicken_fried.jpg' },
-  { id: 5, name: 'Double Cheese Burger', category: 'Hamburguesa', price: 18.0, img: '/image/hamburguesas/double_cheese.webp' },
-  { id: 6, name: 'French Fries', category: 'Papas Fritas', price: 10.0, img: '/image/papas/french_fries.jpg' },
-  { id: 7, name: 'Shuco Adobado', category: 'Shucos', price: 12.0, img: '/image/shucos/adobado.jpeg' },
-  { id: 8, name: 'Gringa Mixta', category: 'Gringa', price: 16.0, img: '/image/gringa/mixta.jpg' },
+  // Gringas
+  { id: 1, name: 'Gringa Adobada', category: 'Gringas', price: 20.0, img: '/image/gringa/gringa_adobada.jpg' },
+  { id: 2, name: 'Gringa de Asada', category: 'Gringas', price: 18.0, img: '/image/gringa/gringa_asada.jpg' },
+  { id: 3, name: 'Gringa de Chorizo', category: 'Gringas', price: 16.0, img: '/image/gringa/gringa_chorizo.jpg' },
+  { id: 4, name: 'Gringa de Pollo', category: 'Gringas', price: 16.0, img: '/image/gringa/gringa_pollo.jpg' },
+  { id: 5, name: 'Gringa Mixta', category: 'Gringas', price: 20.0, img: '/image/gringa/gringa_mixta.jpg' },
+  // Hamburguesas
+  { id: 6, name: 'Bacon Burger', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/bacon_burger.jpg' },
+  { id: 7, name: 'Cheese Burger', category: 'Hamburguesas', price: 15.0, img: '/image/hamburguesas/cheese_burger.jpg' },
+  { id: 8, name: 'Double Cheese Burger', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/double_cheese_burger.jpg' },
+  { id: 9, name: 'Hamburguesa Clásica', category: 'Hamburguesas', price: 25.0, img: '/image/hamburguesas/hamburguesa_clasica.jpg' },
+  { id: 10, name: 'Hamburguesa con Queso', category: 'Hamburguesas', price: 28.0, img: '/image/hamburguesas/hamburguesa_con_queso.jpg' },
+  { id: 11, name: 'Hamburguesa Doble', category: 'Hamburguesas', price: 35.0, img: '/image/hamburguesas/hamburguesa_doble.jpg' },
+  // Shucos
+  { id: 12, name: 'Shuco de Adobado', category: 'Shucos', price: 15.0, img: '/image/shucos/shuco_adobado.jpg' },
+  { id: 13, name: 'Shuco de Asada', category: 'Shucos', price: 15.0, img: '/image/shucos/shuco_asada.jpg' },
+  { id: 14, name: 'Shuco de Chorizo', category: 'Shucos', price: 12.0, img: '/image/shucos/shuco_chorizo.jpg' },
+  { id: 15, name: 'Shuco de Longaniza', category: 'Shucos', price: 12.0, img: '/image/shucos/shuco_longaniza.jpg' },
+  { id: 16, name: 'Shuco de Salami', category: 'Shucos', price: 12.0, img: '/image/shucos/shuco_salami.jpg' },
+  { id: 17, name: 'Shuco de Salchicha', category: 'Shucos', price: 12.0, img: '/image/shucos/shuco_salchicha.jpg' },
+  // Pollo
+  { id: 18, name: 'Cuadril de Pollo', category: 'Pollo', price: 10.0, img: '/image/pollo/cuadril_pollo.jpg' },
+  { id: 19, name: 'French Fries (Pollo)', category: 'Pollo', price: 15.0, img: '/image/pollo/french_fries_pollo.jpg' },
+  { id: 20, name: 'Pollo Frito con Papitas', category: 'Pollo', price: 18.0, img: '/image/pollo/pollo_frito_con_papitas.jpg' },
+  // Papas Fritas y Salchipapas
+  { id: 21, name: 'Salchipapas', category: 'Papas Fritas y Salchipapas', price: 20.0, img: '/image/papas/salchipapas.jpg' },
+  { id: 22, name: 'McPatatas (Papas Fritas)', category: 'Papas Fritas y Salchipapas', price: 15.0, img: '/image/papas/mcpatatas.jpg' },
+  // Bebidas
+  { id: 23, name: 'Coca Cola', category: 'Bebidas', price: 6.0, img: '/image/bebidas/coca_cola.jpg' },
 ];
 
 const categories = ['Todos', ...menuItems.map(m => m.name)];
 
 const categoryIcons: Record<string, React.ComponentType<LucideProps>> = {
   'Todos': Star,
-  'Hamburguesa': Beef,
+  'Hamburguesas': Beef,
   'Shucos': Sandwich,
-  'Gringa': Pizza,
-  'Salchipapas': Drumstick,
-  'Papas Fritas': Utensils,
+  'Gringas': Pizza,
+  'Pollo': Utensils,
+  'Papas Fritas y Salchipapas': Drumstick,
+  'Bebidas': Coffee,
 };
 
 const Products = () => {
