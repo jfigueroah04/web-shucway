@@ -23,11 +23,11 @@ type Product = { id: number; name: string; category: string; price: number; img:
 const productsList: Product[] = [
   // Gringas
   { id: 1, name: 'Gringa Adobada', category: 'Gringas', price: 20.0, img: '/image/gringa/adobada.jpeg' },
-  { id: 2, name: 'Gringa de Asada', category: 'Gringas', price: 18.0, img: '/image/gringa/asada.jpeg' },
+  { id: 2, name: 'Gringa de Asada', category: 'Gringas', price: 20.0, img: '/image/gringa/asada.jpeg' },
   { id: 5, name: 'Gringa Mixta', category: 'Gringas', price: 20.0, img: '/image/gringa/mixta.jpg' },
   // Hamburguesas
   { id: 6, name: 'Chesse Burger', category: 'Hamburguesas', price: 15.0, img: '/image/hamburguesas/chesse_burger.webp' },
-  { id: 7, name: 'Chesse Burger con Papas', category: 'Hamburguesas', price: 23.0, img: '/image/hamburguesas/chesse_burger.webp' },
+  { id: 7, name: 'Chesse Burger con Papas', category: 'Hamburguesas', price: 23.0, img: '/image/hamburguesas/hamburguesa-papas.jpg' },
   { id: 8, name: 'Double Cheese', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/double_cheese.webp' },
   { id: 9, name: 'Bacon Burger', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/bacon.jpg' },
   { id: 10, name: 'Torito Burger', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/torito.jpeg' },
@@ -61,9 +61,9 @@ const categoryIcons: Record<string, React.ComponentType<LucideProps>> = {
   'Hamburguesas': Beef,
   'Shucos': Sandwich,
   'Gringas': Pizza,
-  'Pollo': Star,
+  'Pollo': Drumstick,
   'Papas Fritas': Utensils,
-  'Salchipapas': Drumstick,
+  'Salchipapas': Beef,
   'Bebidas': Coffee,
 };
 
