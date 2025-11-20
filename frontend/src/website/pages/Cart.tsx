@@ -144,7 +144,7 @@ const CartPage = () => {
             <div className="cart-total">Total: <strong>Q{total}</strong></div>
               <div className="cart-actions">
               <button className="btn btn-secondary" onClick={() => navigate('/productos')}>
-                <FaBoxOpen className="btn-icon" /> Seguir comprando
+                <FaBoxOpen className="btn-icon" /> Seguir
               </button>
                 <button
                 className="btn btn-success"

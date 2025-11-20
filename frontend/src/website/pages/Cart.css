@@ -25,6 +25,8 @@
 .cart-total strong{font-size: 1.6rem;}
 .cart-total{font-size: 1.25rem}
 .cart-actions{display:flex;gap:8px}
+.cart-actions .btn{padding:0.45rem 0.7rem; font-size:0.92rem; min-width:110px}
+.cart-actions .btn .btn-icon{margin-right:6px}
 .cart-actions .btn.btn-secondary:hover{ background: #22c55e; color:#fff; }
 .cart-actions .btn.btn-success:hover{ transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
 
@@ -67,7 +69,7 @@
 .cart-dropdown-footer { padding: 0.8rem 1rem; border-top: 1px solid #eee; display:flex; align-items:center; gap:0.75rem; justify-content:space-between; }
 .cart-dropdown-footer .dropdown-total { font-weight:700; color:#16a34a; }
 .cart-dropdown-footer .dropdown-actions { display:flex; gap:0.6rem; }
-.cart-dropdown-footer .dropdown-actions .btn { min-width:140px; display:inline-flex; align-items:center; justify-content:center; gap:0.5rem; padding:0.55rem 0.9rem; }
+.cart-dropdown-footer .dropdown-actions .btn { min-width:120px; display:inline-flex; align-items:center; justify-content:center; gap:0.4rem; padding:0.45rem 0.7rem; font-size:0.92rem }
 
 @media(max-width:600px){
  .cart-dropdown-footer { flex-direction:column; align-items:stretch; gap:0.6rem; }
