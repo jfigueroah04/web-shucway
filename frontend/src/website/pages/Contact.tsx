@@ -1,6 +1,6 @@
 // ...existing code...
 import './Contact.css';
-import { useEffect } from 'react';
+// no hooks needed here
 
 const Contact = () => {
   // Remove the previous hack that changed the .main-content flex value.
@@ -18,11 +18,11 @@ const Contact = () => {
             const nombre = (e.currentTarget.elements.namedItem("nombre") as HTMLInputElement).value;
             const mensaje = (e.currentTarget.elements.namedItem("mensaje") as HTMLInputElement).value;
 
-            const texto = `Hola Shucway %0A
-Mi nombre es: ${nombre}%0A
-Mi mensaje es: ${mensaje}%0A`;
+            const message = `Hola Shucway\nMi nombre es: ${nombre}\nMi mensaje es: ${mensaje}`;
 
-            window.open(`https://wa.me/50256252922?text=${texto}`, "_blank");
+            // use encodeURIComponent to ensure the message is placed correctly in WhatsApp chat
+            const url = `https://wa.me/50256252922?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
           }}>
             <input
               type="text"
@@ -32,7 +32,7 @@ Mi mensaje es: ${mensaje}%0A`;
             />
             <textarea
               name="mensaje"
-              placeholder="Cuéntanos, ¿qué te gustaría pedir hoy? *"
+              placeholder="Cuéntanos, ¿en que podemos ayudarte?"
               rows={4}
               required
               className="contact-textarea"
