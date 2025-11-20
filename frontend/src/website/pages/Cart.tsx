@@ -5,9 +5,16 @@ import { useNavigate } from 'react-router-dom';
 
 const CartPage = () => {
   const [cart, setCart] = useState<any[]>([]);
-  const [clientName, setClientName] = useState(() => {
+  const [firstName, setFirstName] = useState(() => {
     try {
-      return sessionStorage.getItem('clientName') || '';
+      return sessionStorage.getItem('clientFirstName') || '';
+    } catch (e) {
+      return '';
+    }
+  });
+  const [lastName, setLastName] = useState(() => {
+    try {
+      return sessionStorage.getItem('clientLastName') || '';
     } catch (e) {
       return '';
     }
@@ -19,7 +26,7 @@ const CartPage = () => {
       return '';
     }
   });
-  const [nameError, setNameError] = useState(false);
+  const [nameErrorMsg, setNameErrorMsg] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,15 +49,20 @@ const CartPage = () => {
       sessionStorage.setItem('cart', JSON.stringify(cart));
       window.dispatchEvent(new CustomEvent('cart-updated', { detail: cart }));
       // also persist current order info when cart changes
-      sessionStorage.setItem('clientName', clientName);
+      sessionStorage.setItem('clientFirstName', firstName);
+      sessionStorage.setItem('clientLastName', lastName);
       sessionStorage.setItem('orderNote', orderNote);
-      window.dispatchEvent(new CustomEvent('order-updated', { detail: { clientName, orderNote } }));
+      window.dispatchEvent(new CustomEvent('order-updated', { detail: { firstName, lastName, orderNote } }));
     } catch (e) {}
   }, [cart]);
 
   useEffect(() => {
-    try { sessionStorage.setItem('clientName', clientName); } catch (e) {}
-  }, [clientName]);
+    try { sessionStorage.setItem('clientFirstName', firstName); } catch (e) {}
+  }, [firstName]);
+
+  useEffect(() => {
+    try { sessionStorage.setItem('clientLastName', lastName); } catch (e) {}
+  }, [lastName]);
 
   useEffect(() => {
     try { sessionStorage.setItem('orderNote', orderNote); } catch (e) {}
@@ -61,7 +73,8 @@ const CartPage = () => {
     const onOrder = (ev: Event) => {
       try {
         const payload = (ev as CustomEvent).detail;
-        if (payload && typeof payload.clientName === 'string') setClientName(payload.clientName);
+        if (payload && typeof payload.firstName === 'string') setFirstName(payload.firstName);
+        if (payload && typeof payload.lastName === 'string') setLastName(payload.lastName);
         if (payload && typeof payload.orderNote === 'string') setOrderNote(payload.orderNote);
       } catch (e) {}
     };
@@ -84,13 +97,23 @@ const CartPage = () => {
 
       <div className="order-client">
         <label>Nombre del cliente</label>
-        <input
-          type="text"
-          placeholder="Tu nombre"
-          value={clientName}
-          onChange={(e) => { setClientName(e.target.value); if (nameError && e.target.value.trim()) setNameError(false); }}
-          className={nameError ? 'invalid' : ''}
-        />
+        <div className="name-row">
+          <input
+            type="text"
+            placeholder="Nombre"
+            value={firstName}
+            onChange={(e) => { setFirstName(e.target.value); if (nameErrorMsg && e.target.value.trim() && lastName.trim()) setNameErrorMsg(''); }}
+            className={nameErrorMsg && !firstName.trim() ? 'invalid' : ''}
+          />
+          <input
+            type="text"
+            placeholder="Apellido"
+            value={lastName}
+            onChange={(e) => { setLastName(e.target.value); if (nameErrorMsg && firstName.trim() && e.target.value.trim()) setNameErrorMsg(''); }}
+            className={nameErrorMsg && !lastName.trim() ? 'invalid' : ''}
+          />
+        </div>
+        {nameErrorMsg && <div className="field-error">{nameErrorMsg}</div>}
         <label>Notas / Descripción</label>
         <textarea placeholder="Ej: Sin cebolla, extra salsa..." value={orderNote} onChange={(e) => setOrderNote(e.target.value)} />
       </div>
@@ -123,15 +146,17 @@ const CartPage = () => {
               <button className="btn btn-secondary" onClick={() => navigate('/productos')}>
                 <FaBoxOpen className="btn-icon" /> Seguir comprando
               </button>
-              <button
+                <button
                 className="btn btn-success"
                 onClick={() => {
-                  if (!clientName.trim()) {
-                    setNameError(true);
+                  if (!firstName.trim() || !lastName.trim()) {
+                    if (!firstName.trim() && !lastName.trim()) setNameErrorMsg('Ingrese Nombre y Apellido');
+                    else if (!firstName.trim()) setNameErrorMsg('Ingrese Nombre');
+                    else setNameErrorMsg('Ingrese Apellido');
                     return;
                   }
                   const messageLines = cart.map(it => `${it.qty} x ${it.name} - Q${(it.qty * it.price).toFixed(2)}`);
-                  const clientLine = clientName ? `Cliente: ${clientName}` : '';
+                  const clientLine = `${firstName} ${lastName}` ? `Cliente: ${firstName} ${lastName}` : '';
                   const itemsSection = `Pedido:\n${messageLines.join('\n')}`;
                   const totalLine = `Total: Q${total.toFixed(2)}`;
                   const notesLine = orderNote ? `Notas: ${orderNote}` : '';
@@ -146,7 +171,7 @@ const CartPage = () => {
                   window.open(url, '_blank');
                 }}
                 disabled={!cart.length}
-                title={!clientName.trim() ? 'Agrega el nombre del cliente' : ''}
+                title={!firstName.trim() || !lastName.trim() ? 'Agrega Nombre y Apellido del cliente' : ''}
               >
                 <FaWhatsapp className="btn-icon" /> Confirmar compra
               </button>

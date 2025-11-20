@@ -10,7 +10,10 @@
 .row-left{display:flex;flex-direction:column}
 .cart-name{font-weight:700}
 .row-right{display:flex;align-items:center;gap:8px}
-.qty-controls button{width:34px;height:32px;border-radius:6px;border:1px solid #e6eef2;background:#fff}
+.qty-controls{display:flex;align-items:center;gap:8px}
+.qty-controls button{width:34px;height:32px;border-radius:6px;border:1px solid #e6eef2;background:#fff;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.qty-controls button svg{display:block}
+.qty-controls span{min-width:28px;display:inline-flex;align-items:center;justify-content:center}
 .trash-btn{background:#ef4444;color:#fff;border-radius:8px;border:none;padding:6px 8px}
 .cart-summary{display:flex;flex-direction:column;gap:0.8rem;margin-top:12px}
 /* On wide screens show total and actions aligned horizontally */
@@ -37,6 +40,12 @@
 .order-client textarea { min-height: 72px; resize: vertical; }
 .order-client input.invalid { border-color: #ef4444; box-shadow: 0 0 0 4px rgba(239,68,68,0.08); }
 
+.order-client .name-row { display:flex; gap:0.6rem; }
+.order-client .name-row input { flex:1; }
+
+.order-client .field-error { color: #ef4444; font-size: 0.92rem; margin-top: 0.4rem; }
+
+
 @media(max-width:600px){
  .cart-page.container { padding: 1rem 0.5rem; }
  .cart-row{flex-direction:column;align-items:stretch}
@@ -51,4 +60,17 @@
  .cart-actions { flex-direction: column; gap: 0.5rem; }
  .cart-actions .btn { width: 100%; justify-content: center; }
  .cart-items { max-height: 300px; }
+ .order-client .name-row { flex-direction:column; gap:0.5rem; }
+}
+
+/* Dropdown del carrito: separar botónes y comportamientos responsivos */
+.cart-dropdown-footer { padding: 0.8rem 1rem; border-top: 1px solid #eee; display:flex; align-items:center; gap:0.75rem; justify-content:space-between; }
+.cart-dropdown-footer .dropdown-total { font-weight:700; color:#16a34a; }
+.cart-dropdown-footer .dropdown-actions { display:flex; gap:0.6rem; }
+.cart-dropdown-footer .dropdown-actions .btn { min-width:140px; display:inline-flex; align-items:center; justify-content:center; gap:0.5rem; padding:0.55rem 0.9rem; }
+
+@media(max-width:600px){
+ .cart-dropdown-footer { flex-direction:column; align-items:stretch; gap:0.6rem; }
+ .cart-dropdown-footer .dropdown-actions { width:100%; flex-direction:column; }
+ .cart-dropdown-footer .dropdown-actions .btn { width:100%; }
 }
