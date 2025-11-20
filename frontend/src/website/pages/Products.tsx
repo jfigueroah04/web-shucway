@@ -31,7 +31,7 @@ const productsList: Product[] = [
   { id: 8, name: 'Double Cheese', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/double_cheese.webp' },
   { id: 9, name: 'Bacon Burger', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/bacon.jpg' },
   { id: 10, name: 'Torito Burger', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/torito.jpeg' },
-  { id: 11, name: 'Bacon Torito', category: 'Hamburguesas', price: 25.0, img: '/image/hamburguesas/torito.jpeg' },
+  { id: 11, name: 'Bacon Torito', category: 'Hamburguesas', price: 25.0, img: '/image/hamburguesas/bacontorito.jpeg' },
   // Shucos
   { id: 13, name: 'Shuco de Carne Asada', category: 'Shucos', price: 15.0, img: '/image/shucos/carne-asada.webp' },
   { id: 14, name: 'Shuco de Chorizo', category: 'Shucos', price: 12.0, img: '/image/shucos/chorizo.jpg' },
