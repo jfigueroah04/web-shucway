@@ -431,6 +431,10 @@
 .order-client textarea { min-height: 72px; resize: vertical; }
 .order-client input.invalid { border-color: #ef4444; box-shadow: 0 0 0 4px rgba(239,68,68,0.08); }
 .input-error { color: #ef4444; font-size: .85rem; margin-top: .35rem; }
+/* two-field name row */
+.order-client .name-row { display:flex; gap:0.6rem; }
+.order-client .name-row input { flex:1; }
+@media(max-width:600px){ .order-client .name-row { flex-direction:column; gap:0.5rem; } }
 /* order-type removed (no longer used) */
 
 /* Small screens: horizontal scroll for products */

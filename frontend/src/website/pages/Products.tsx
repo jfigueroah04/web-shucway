@@ -49,9 +49,16 @@ const Products = () => {
       return [];
     }
   });
-  const [clientName, setClientName] = useState(() => {
+  const [firstName, setFirstName] = useState(() => {
     try {
-      return sessionStorage.getItem('clientName') || '';
+      return sessionStorage.getItem('clientFirstName') || '';
+    } catch (e) {
+      return '';
+    }
+  });
+  const [lastName, setLastName] = useState(() => {
+    try {
+      return sessionStorage.getItem('clientLastName') || '';
     } catch (e) {
       return '';
     }
@@ -72,7 +79,7 @@ const Products = () => {
   }, []);
   const productsPerPage = isMobile ? 6 : 8;
   const [cartExpanded, setCartExpanded] = useState(false);
-  const [nameError, setNameError] = useState(false);
+  const [nameErrorMsg, setNameErrorMsg] = useState('');
   const [, setTimeLeft] = useState(604800); // 7 días en segundos
     const location = useLocation();
 
@@ -135,9 +142,10 @@ const Products = () => {
 
   const confirmWhatsApp = () => {
     if (cart.length === 0) return;
-    if (!clientName.trim()) {
-      setNameError(true);
-      // scroll to cart to force user to see the message
+    if (!firstName.trim() || !lastName.trim()) {
+      if (!firstName.trim() && !lastName.trim()) setNameErrorMsg('Ingrese Nombre y Apellido');
+      else if (!firstName.trim()) setNameErrorMsg('Ingrese Nombre');
+      else setNameErrorMsg('Ingrese Apellido');
       const el = document.querySelector('.cart-sidebar');
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
@@ -145,7 +153,7 @@ const Products = () => {
     const phone = '50256252922';
     const messageLines = cart.map((c) => `${c.qty} x ${c.name} - Q${(c.qty * c.price).toFixed(2)}`);
     // Build message: client first, then list of items, then total, then notes
-    const clientLine = clientName ? `Cliente: ${clientName}` : '';
+    const clientLine = `${firstName} ${lastName}` ? `Cliente: ${firstName} ${lastName}` : '';
     const itemsSection = `Pedido:\n${messageLines.join('\n')}`;
     const totalLine = `Total: Q${totalAmount.toFixed(2)}`;
     const notesLine = orderNote ? `Notas: ${orderNote}` : '';
@@ -180,11 +188,12 @@ const Products = () => {
   // persist client/order info and notify other pages
   useEffect(() => {
     try {
-      sessionStorage.setItem('clientName', clientName);
+      sessionStorage.setItem('clientFirstName', firstName);
+      sessionStorage.setItem('clientLastName', lastName);
       sessionStorage.setItem('orderNote', orderNote);
-      window.dispatchEvent(new CustomEvent('order-updated', { detail: { clientName, orderNote } }));
+      window.dispatchEvent(new CustomEvent('order-updated', { detail: { firstName, lastName, orderNote } }));
     } catch (e) {}
-  }, [clientName, orderNote]);
+  }, [firstName, lastName, orderNote]);
 
   // also listen for cart updates from other components (e.g., Header dropdown)
   useEffect(() => {
@@ -205,9 +214,17 @@ const Products = () => {
     const onOrder = (ev: Event) => {
       try {
         // @ts-ignore
-        const { clientName: cn, orderNote: on } = (ev as CustomEvent).detail || {};
-        if (typeof cn === 'string') setClientName(cn);
-        if (typeof on === 'string') setOrderNote(on);
+        const payload = (ev as CustomEvent).detail || {};
+        // support both legacy `clientName` and new `firstName`/`lastName`
+        if (typeof payload.clientName === 'string') {
+          // legacy single-field name
+          const parts = payload.clientName.trim().split(/\s+/);
+          setFirstName(parts.shift() || '');
+          setLastName(parts.join(' ') || '');
+        }
+        if (typeof payload.firstName === 'string') setFirstName(payload.firstName);
+        if (typeof payload.lastName === 'string') setLastName(payload.lastName);
+        if (typeof payload.orderNote === 'string') setOrderNote(payload.orderNote);
       } catch (e) {}
     };
     window.addEventListener('order-updated', onOrder as EventListener);
@@ -288,23 +305,26 @@ const Products = () => {
               <div className="cart-highlight-msg">Agrega tu nombre o instrucciones para la orden</div>
               <div className="order-client">
                 <label>Nombre del cliente</label>
-                <input
-                  type="text"
-                  placeholder="Tu nombre"
-                  value={clientName}
-                  aria-invalid={nameError}
-                  onChange={(e) => {
-                    setClientName(e.target.value);
-                    if (nameError && e.target.value.trim()) setNameError(false);
-                  }}
-                  className={nameError ? 'invalid' : ''}
-                />
-
-                {/* 'Cómo lo quieres' removed per request */}
+                <div className="name-row">
+                  <input
+                    type="text"
+                    placeholder="Nombre"
+                    value={firstName}
+                    onChange={(e) => { setFirstName(e.target.value); if (nameErrorMsg && e.target.value.trim() && lastName.trim()) setNameErrorMsg(''); }}
+                    className={nameErrorMsg && !firstName.trim() ? 'invalid' : ''}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Apellido"
+                    value={lastName}
+                    onChange={(e) => { setLastName(e.target.value); if (nameErrorMsg && firstName.trim() && e.target.value.trim()) setNameErrorMsg(''); }}
+                    className={nameErrorMsg && !lastName.trim() ? 'invalid' : ''}
+                  />
+                </div>
 
                 <label>Notas / Descripción</label>
                 <textarea placeholder="Ej: Sin cebolla, extra salsa..." value={orderNote} onChange={(e) => setOrderNote(e.target.value)} />
-                {nameError && <div className="input-error">El nombre del cliente es obligatorio</div>}
+                {nameErrorMsg && <div className="input-error">{nameErrorMsg}</div>}
               </div>
               <div className={`cart-list ${cartExpanded ? 'expanded' : 'collapsed'}`}>
                 {cart.length === 0 && <div className="cart-empty">Tu orden está vacía</div>}
@@ -348,8 +368,8 @@ const Products = () => {
                 <button
                   className="btn btn-success"
                   onClick={confirmWhatsApp}
-                  disabled={!clientName.trim() || cart.length === 0}
-                  title={!clientName.trim() ? 'Agrega el nombre del cliente' : ''}
+                  disabled={!firstName.trim() || !lastName.trim() || cart.length === 0}
+                  title={!firstName.trim() || !lastName.trim() ? 'Agrega Nombre y Apellido del cliente' : ''}
                 >CONTINUAR</button>
               </div>
             </aside>
@@ -361,7 +381,8 @@ const Products = () => {
                 if (name) {
                   const phone = '50256252922';
                   const messageLines = cart.map((c) => `${c.qty} x ${c.name} - Q${(c.qty * c.price).toFixed(2)}`);
-                  const message = `Hola! Quisiera ordenar:\n${messageLines.join('\n')}\n\nCliente: ${name}\n\nTotal: Q${totalAmount.toFixed(2)}`;
+                  const client = name.trim();
+                  const message = `Hola! Quisiera ordenar:\n${messageLines.join('\n')}\n\nCliente: ${client}\n\nTotal: Q${totalAmount.toFixed(2)}`;
                   window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
                 }
               }}
