@@ -26,13 +26,12 @@ const productsList: Product[] = [
   { id: 2, name: 'Gringa de Asada', category: 'Gringas', price: 18.0, img: '/image/gringa/asada.jpeg' },
   { id: 5, name: 'Gringa Mixta', category: 'Gringas', price: 20.0, img: '/image/gringa/mixta.jpg' },
   // Hamburguesas
-  { id: 6, name: 'Bacon Burger', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/bacon_burger.jpg' },
-  { id: 7, name: 'Cheese Burger', category: 'Hamburguesas', price: 15.0, img: '/image/hamburguesas/cheese_burger.jpg' },
-  { id: 8, name: 'Double Cheese Burger', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/double_cheese_burger.jpg' },
-  { id: 9, name: 'Hamburguesa Clásica', category: 'Hamburguesas', price: 25.0, img: '/image/hamburguesas/hamburguesa_clasica.jpg' },
-  { id: 10, name: 'Hamburguesa con Queso', category: 'Hamburguesas', price: 28.0, img: '/image/hamburguesas/hamburguesa_con_queso.jpg' },
-  { id: 11, name: 'Hamburguesa Doble', category: 'Hamburguesas', price: 35.0, img: '/image/hamburguesas/double_cheese.webp' },
-  { id: 12, name: 'Pollo Burger', category: 'Hamburguesas', price: 18.0, img: '/image/hamburguesas/pollo_burger.webp' },
+  { id: 6, name: 'Chesse Burger', category: 'Hamburguesas', price: 15.0, img: '/image/hamburguesas/chesse_burger.webp' },
+  { id: 7, name: 'Chesse Burger con Papas', category: 'Hamburguesas', price: 23.0, img: '/image/hamburguesas/chesse_burger.webp' },
+  { id: 8, name: 'Double Cheese', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/double_cheese.webp' },
+  { id: 9, name: 'Bacon Burger', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/bacon.jpg' },
+  { id: 10, name: 'Torito Burger', category: 'Hamburguesas', price: 20.0, img: '/image/hamburguesas/torito.jpeg' },
+  { id: 11, name: 'Bacon Torito', category: 'Hamburguesas', price: 25.0, img: '/image/hamburguesas/bacon.jpg' },
   // Shucos
   { id: 13, name: 'Shuco de Carne Asada', category: 'Shucos', price: 15.0, img: '/image/shucos/carne-asada.webp' },
   { id: 14, name: 'Shuco de Chorizo', category: 'Shucos', price: 12.0, img: '/image/shucos/chorizo.jpg' },
@@ -46,12 +45,13 @@ const productsList: Product[] = [
   { id: 21, name: 'Pollo con Papitas', category: 'Pollo', price: 18.0, img: '/image/pollo/pollo-papas.jpeg' },
   { id: 22, name: '2 Piezas con Papitas', category: 'Pollo', price: 27.0, img: '/image/pollo/2pollo-papas.jpg' },
   // Papas Fritas
-  { id: 23, name: 'McPatatas (Papas Fritas)', category: 'Papas Fritas', price: 15.0, img: '/image/papas/french_fries.jpg' },
+  { id: 23, name: 'McPatatas', category: 'Papas Fritas', price: 15.0, img: '/image/acompañante/mcpatatatas.jpg' },
+  { id: 24, name: 'Papitas Fritas', category: 'Papas Fritas', price: 15.0, img: '/image/papas/french_fries.jpg' },
   // Salchipapas
-  { id: 24, name: 'Salchipapas', category: 'Salchipapas', price: 20.0, img: '/image/papas/salchipapas.jpg' },
+  { id: 25, name: 'Salchipapas', category: 'Salchipapas', price: 20.0, img: '/image/papas/salchipapas.jpg' },
   // Bebidas
-  { id: 23, name: 'Coca Cola', category: 'Bebidas', price: 6.0, img: '/image/bebida/coca-cola.jpg' },
-  { id: 24, name: 'Pepsi-Cola', category: 'Bebidas', price: 5.0, img: '/image/bebida/carnaval.jpg' },
+  { id: 26, name: 'Coca Cola', category: 'Bebidas', price: 6.0, img: '/image/bebida/coca-cola.jpg' },
+  { id: 27, name: 'Carnaval', category: 'Bebidas', price: 5.0, img: '/image/bebida/Carnaval.jpg' },
 ];
 
 const categories = ['Todos', ...menuItems.map(m => m.name)];
