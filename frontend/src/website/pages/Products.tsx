@@ -12,7 +12,8 @@ const menuItems = [
   { name: 'Hamburguesas', img: '/image/hamburguesas/bacon.jpg', desc: 'Muchos tipos' },
   { name: 'Gringas', img: '/image/gringa/adobada.jpeg', desc: 'Delicias estilo gringa' },
   { name: 'Pollo', img: '/image/hamburguesas/chicken_fried.jpg', desc: 'Opciones de pollo' },
-  { name: 'Papas Fritas y Salchipapas', img: '/image/papas/salchipapas.jpg', desc: 'Acompañamientos' },
+  { name: 'Papas Fritas', img: '/image/papas/french_fries.jpg', desc: 'Acompañamientos' },
+  { name: 'Salchipapas', img: '/image/papas/salchipapas.jpg', desc: 'Acompañamientos' },
   { name: 'Bebidas', img: '/image/other/logo-umg.png', desc: 'Refrescos' },
 ];
 
@@ -45,8 +46,8 @@ const productsList: Product[] = [
   { id: 19, name: 'French Fries (Pollo)', category: 'Pollo', price: 15.0, img: '/image/pollo/french_fries_pollo.jpg' },
   { id: 20, name: 'Pollo Frito con Papitas', category: 'Pollo', price: 18.0, img: '/image/pollo/pollo_frito_con_papitas.jpg' },
   // Papas Fritas y Salchipapas
-  { id: 21, name: 'Salchipapas', category: 'Papas Fritas y Salchipapas', price: 20.0, img: '/image/papas/salchipapas.jpg' },
-  { id: 22, name: 'McPatatas (Papas Fritas)', category: 'Papas Fritas y Salchipapas', price: 15.0, img: '/image/papas/mcpatatas.jpg' },
+  { id: 21, name: 'Salchipapas', category: 'Salchipapas', price: 20.0, img: '/image/papas/salchipapas.jpg' },
+  { id: 22, name: 'McPatatas (Papas Fritas)', category: 'Papas Fritas', price: 15.0, img: '/image/papas/mcpatatas.jpg' },
   // Bebidas
   { id: 23, name: 'Coca Cola', category: 'Bebidas', price: 6.0, img: '/image/bebidas/coca_cola.jpg' },
 ];
@@ -58,8 +59,9 @@ const categoryIcons: Record<string, React.ComponentType<LucideProps>> = {
   'Hamburguesas': Beef,
   'Shucos': Sandwich,
   'Gringas': Pizza,
-  'Pollo': Utensils,
-  'Papas Fritas y Salchipapas': Drumstick,
+  'Pollo': Star,
+  'Papas Fritas': Utensils,
+  'Salchipapas': Drumstick,
   'Bebidas': Coffee,
 };
 
