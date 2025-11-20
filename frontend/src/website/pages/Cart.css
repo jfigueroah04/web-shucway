@@ -76,3 +76,11 @@
  .cart-dropdown-footer .dropdown-actions { width:100%; flex-direction:column; }
  .cart-dropdown-footer .dropdown-actions .btn { width:100%; }
 }
+
+/* Expand toggle for cart page: show only 2 items by default and allow expand */
+.cart-expand-toggle { display:flex; justify-content:center; margin-top:0.6rem; }
+.cart-expand-toggle .btn { padding:0.4rem 0.75rem; font-size:0.9rem }
+
+/* Optional collapsed visual hint */
+.cart-list.collapsed .cart-items { max-height: 150px; overflow: hidden; position:relative }
+.cart-list.collapsed .cart-items:after { content: ''; position:absolute; left:0; right:0; bottom:0; height:40px; background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,0.95)); pointer-events:none }

@@ -1,10 +1,12 @@
 import './Cart.css';
 import { useEffect, useState, useRef } from 'react';
+import { buildWhatsAppUrl } from '../../config/whatsapp';
 import { FaTrash, FaPlus, FaMinus, FaBoxOpen, FaWhatsapp } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const CartPage = () => {
   const [cart, setCart] = useState<any[]>([]);
+  const [cartExpanded, setCartExpanded] = useState(false);
   const [firstName, setFirstName] = useState(() => {
     try {
       return sessionStorage.getItem('clientFirstName') || '';
@@ -123,7 +125,7 @@ const CartPage = () => {
               <div className="cart-list">
                 {/* rows wrapper - becomes scrollable after 3 items */}
                 <div className="cart-items">
-                {cart.map((it) => (
+                {(cartExpanded ? cart : cart.slice(0, 2)).map((it) => (
             <div key={it.id} className="cart-row">
               <div className="row-left">
                 <div className="cart-name">{it.name}</div>
@@ -140,11 +142,19 @@ const CartPage = () => {
             </div>
           ))}
                 </div>
+                {cart.length > 2 && (
+                  <div className="cart-expand-toggle">
+                    <button className="btn btn-secondary" onClick={() => setCartExpanded((v) => !v)}>
+                      {cartExpanded ? 'Mostrar menos' : `Mostrar ${cart.length - 2} más`}
+                    </button>
+                  </div>
+                )}
+              
               <div className="cart-summary">
             <div className="cart-total">Total: <strong>Q{total}</strong></div>
               <div className="cart-actions">
               <button className="btn btn-secondary" onClick={() => navigate('/productos')}>
-                <FaBoxOpen className="btn-icon" /> Seguir
+                <FaBoxOpen className="btn-icon" /> Seguir Comprando Productos
               </button>
                 <button
                 className="btn btn-success"
@@ -167,8 +177,7 @@ const CartPage = () => {
                     totalLine,
                     notesLine,
                   ].filter(Boolean).join('\n\n');
-                  const url = `https://wa.me/50256252922?text=${encodeURIComponent(message)}`; // Replace with actual number
-                  window.open(url, '_blank');
+                  window.open(buildWhatsAppUrl(message), '_blank');
                 }}
                 disabled={!cart.length}
                 title={!firstName.trim() || !lastName.trim() ? 'Agrega Nombre y Apellido del cliente' : ''}

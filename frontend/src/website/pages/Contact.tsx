@@ -12,7 +12,7 @@ const Contact = () => {
         <div className="contact-form-section">
           <h2 className="contact-title">CONTACTANOS</h2>
           <p className="contact-subtitle">Deja tus comentarios, para que podamos atenderte con gusto</p>
-          <form className="contact-form-custom" onSubmit={(e) => {
+          <form className="contact-form-custom" onSubmit={async (e) => {
             e.preventDefault();
 
             const nombre = (e.currentTarget.elements.namedItem("nombre") as HTMLInputElement).value;
@@ -20,9 +20,15 @@ const Contact = () => {
 
             const message = `Hola Shucway\nMi nombre es: ${nombre}\nMi mensaje es: ${mensaje}`;
 
-            // use encodeURIComponent to ensure the message is placed correctly in WhatsApp chat
-            const url = `https://wa.me/50256252922?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
+            // use centralized helper to build WhatsApp URL
+            try {
+              const { buildWhatsAppUrl } = await import('../../config/whatsapp');
+              window.open(buildWhatsAppUrl(message), '_blank');
+            } catch (err) {
+              console.error('Error loading WhatsApp helper:', err);
+              // fallback
+              window.open(`https://wa.me/50256252922?text=${encodeURIComponent(message)}`, '_blank');
+            }
           }}>
             <input
               type="text"

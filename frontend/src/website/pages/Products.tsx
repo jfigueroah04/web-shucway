@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { Beef, Sandwich, Pizza, Drumstick, Utensils, Star } from 'lucide-react';
 import { FaCartPlus, FaTrash } from 'react-icons/fa';
 import './Products.css';
+import { buildWhatsAppUrl } from '../../config/whatsapp';
 
 const menuItems = [
   { name: 'Shucos', img: '/image/shucos/salami.jpeg', desc: 'Variedad de clásicos' },
@@ -165,8 +166,7 @@ const Products = () => {
       totalLine,
       notesLine,
     ].filter(Boolean).join('\n\n');
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    window.open(buildWhatsAppUrl(message), '_blank');
   };
 
   // persist cart to sessionStorage and notify header
@@ -378,12 +378,11 @@ const Products = () => {
               onClick={() => {
                 if (cart.length === 0) return;
                 const name = prompt('Ingresa tu nombre para el pedido:');
-                if (name) {
-                  const phone = '50256252922';
+                  if (name) {
                   const messageLines = cart.map((c) => `${c.qty} x ${c.name} - Q${(c.qty * c.price).toFixed(2)}`);
                   const client = name.trim();
                   const message = `Hola! Quisiera ordenar:\n${messageLines.join('\n')}\n\nCliente: ${client}\n\nTotal: Q${totalAmount.toFixed(2)}`;
-                  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+                  window.open(buildWhatsAppUrl(message), '_blank');
                 }
               }}
               className="responsive-cart-button" 

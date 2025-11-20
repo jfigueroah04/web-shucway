@@ -1,4 +1,6 @@
 import './WhatsAppSection.css';
+import { WHATSAPP_PHONE } from '../../config/whatsapp';
+
 // no icons used here currently
 
 const WhatsAppSection = () => {
@@ -11,7 +13,7 @@ const WhatsAppSection = () => {
         <span className="whatsapp-section-title">CONTACTANOS MEDIANTE WHATSAPP</span>
       </div>
       <div>
-        <a href="https://wa.me/50256252922" target="_blank" rel="noopener noreferrer">
+        <a href={`https://wa.me/${WHATSAPP_PHONE}`} target="_blank" rel="noopener noreferrer">
           <button className="whatsapp-section-btn">INGRESA AQUÍ</button>
         </a>
       </div>
