@@ -27,7 +27,7 @@ const Contact = () => {
             } catch (err) {
               console.error('Error loading WhatsApp helper:', err);
               // fallback
-              window.open(`https://wa.me/50256252922?text=${encodeURIComponent(message)}`, '_blank');
+              window.open(`https://wa.me/50252025909?text=${encodeURIComponent(message)}`, '_blank');
             }
           }}>
             <input
@@ -57,7 +57,7 @@ const Contact = () => {
             </div>
             <div>
               <span className="contact-label">Numero</span>
-              <p className="contact-value">(+502) 5625-2922</p>
+              <p className="contact-value">(+502) 5202-5909</p>
             </div>
             <div>
               <span className="contact-label">Horario</span>

@@ -228,7 +228,7 @@ const Products = () => {
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
-    const phone = '50256252922';
+    const phone = '50252025909';
     const messageLines = cart.map((c) => `${c.qty} x ${c.name} - Q${(c.qty * c.price).toFixed(2)}`);
     // Build message: client first, then list of items, then total, then notes
     const clientLine = `${firstName} ${lastName}` ? `Mi nombre es: ${firstName} ${lastName}` : '';

@@ -270,12 +270,14 @@ const CartPage = () => {
                   const messageLines = cart.map(it => `${it.qty} x ${it.name} - Q${(it.qty * it.price).toFixed(2)}`);
                   const clientLine = `${firstName} ${lastName}` ? `Mi nombre es: ${firstName} ${lastName}` : '';
                   const itemsSection = `Pedido:\n${messageLines.join('\n')}`;
+                  const pickupLine = pickupTime === 'now' ? 'Recoger ahora' : `Recoger a las ${pickupHour}`;
                   const totalLine = `Total: Q${total.toFixed(2)}`;
                   const notesLine = orderNote ? `Notas: ${orderNote}` : '';
                   const message = [
                     'Hola, quiero confirmar mi pedido:',
                     clientLine,
                     itemsSection,
+                    pickupLine,
                     totalLine,
                     notesLine,
                   ].filter(Boolean).join('\n\n');

@@ -157,7 +157,7 @@ const Home = () => {
         <div className="food-carousel">
           {[...foodImages, ...foodImages].map((image, index) => (
             <div key={index} className="food-item">
-              <LazyLoadImage src={image} alt="Platillo destacado" effect="blur" />
+              <LazyLoadImage src={image} alt="Platillo destacado" effect="blur" width={200} height={250} />
             </div>
           ))}
         </div>
@@ -166,9 +166,7 @@ const Home = () => {
       {/* Visit Section */}
       {/* WhatsApp contact moved from Contact page (placed before the map) */}
       <section className="home-whatsapp">
-        <div className="container">
-          <WhatsAppSection />
-        </div>
+        <WhatsAppSection />
       </section>
       <section className="visit-section">
         <a
@@ -176,13 +174,8 @@ const Home = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="visit-map-link"
+          style={{ backgroundImage: 'url(/img/map.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
-          <LazyLoadImage
-            src="/image/other/location-static-map.png"
-            alt="Ubicación Shucway"
-            className="visit-map-img"
-            effect="blur"
-          />
           <div className="map-overlay"></div>
           <div className="visit-content">
             <FaMapMarkerAlt className="location-icon" />

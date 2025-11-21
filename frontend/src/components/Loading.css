@@ -19,10 +19,12 @@
 .loading-icon {
   width: 60px; /* Un poco más grande para menos borrosidad */
   height: 60px;
-  /* Sin animación */
+  animation: spin 2s linear infinite;
 }
 
 .dot {
+  display: inline-block;
+  margin: 0 2px;
   animation: dot-bounce 1.4s infinite ease-in-out;
 }
 
@@ -31,15 +33,44 @@
 .dot:nth-child(3) { animation-delay: 0s; }
 
 @keyframes dot-bounce {
-  0%, 80%, 100% {
-    transform: scale(0);
+  0%, 100% {
+    transform: translateY(0) scale(0.8);
   }
-  40% {
-    transform: scale(1);
+  50% {
+    transform: translateY(-10px) scale(1.2);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes textFade {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes textFade {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
   }
 }
 
 .loading-content p {
   margin-top: 20px;
   font-size: 1.2rem;
+  font-weight: bold;
+  animation: textFade 2s ease-in-out infinite;
 }

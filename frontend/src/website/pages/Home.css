@@ -7,7 +7,7 @@
 }
 
 /* WhatsApp Section in Home */
-.home-whatsapp { padding: 1.5rem 0; }
+.home-whatsapp { padding: 0; }
 .home-whatsapp .container { max-width: none; width:100%; margin: 0 auto; padding: 0 1rem; }
 
 .hero-carousel { height: 100%; position: relative; }
@@ -122,8 +122,9 @@
 .mission-vision-button:hover { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,.3); background: white; color: #eab308; }
 
 /* Featured Food Section */
-.featured-food { padding: 4rem 0; overflow: hidden; background-color: #f9fafb; }
+.featured-food { padding: 2rem 0; overflow: hidden; background-color: #f9fafb; }
 .food-carousel { display: flex; gap: 2rem; animation: scroll 30s linear infinite; padding: 2rem 0; }
+.food-carousel:hover { animation-play-state: paused; }
 .food-item { flex: 0 0 200px; height: 250px; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,.1); }
 .food-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 0.5rem; transition: transform 0.3s ease; }
 .food-item:hover img { transform: scale(1.05); }
@@ -143,6 +144,13 @@
   padding: 0;
   background: none; /* elimina cualquier color de fondo */
   border: none;     /* asegura que no haya líneas visibles */
+}
+
+.visit-map-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
 /* Imagen del mapa: ocupa todo el contenedor sin dejar bordes */
